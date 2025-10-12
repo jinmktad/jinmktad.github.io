@@ -1,20 +1,118 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>리스크 제로 테스트 신청 완료</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>문의 접수 완료 | JINMARKETING LEADMAKERS사업팀</title>
+  <meta name="robots" content="noindex,nofollow" />
   <style>
-    body { font-family: 'Pretendard', sans-serif; text-align: center; margin-top: 100px; color: #333; }
-    h1 { font-size: 28px; }
-    p { font-size: 18px; }
-    a { color: #007bff; text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    body {
+      font-family: system-ui, -apple-system, "Noto Sans KR", sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #0f172a, #1e293b);
+      color: #e2e8f0;
+      text-align: center;
+    }
+    .container {
+      background: #1e1e2e;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      max-width: 420px;
+      width: 90%;
+    }
+    h1 {
+      color: #38bdf8;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+    .info {
+      margin-top: 25px;
+      text-align: left;
+      background: #111827;
+      padding: 20px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: #94a3b8;
+    }
+    .highlight {
+      color: #38bdf8;
+      font-weight: 600;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    a.btn {
+      display: inline-block;
+      padding: 12px 16px;
+      background: linear-gradient(90deg, #38bdf8, #3b82f6);
+      color: #0f172a;
+      border-radius: 10px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    a.btn:hover {
+      opacity: 0.9;
+    }
+    footer {
+      margin-top: 25px;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
   </style>
+
+  <!-- (선택) Google Analytics 4 연결 -->
+  <!--
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WXDG9MLL7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WXDG9MLL7');
+    gtag('event', 'generate_lead', {
+      page_title: '문의 접수 완료',
+      page_location: location.href
+    });
+  </script>
+  -->
 </head>
 <body>
-  <h1>신청이 완료되었습니다 🎉</h1>
-  <p>곧 담당자가 확인 후 연락드릴 예정입니다.</p>
-  <p><a href="https://jinmktad.github.io/">홈으로 돌아가기</a></p>
+  <div class="container">
+    <h1>문의가 정상적으로 접수되었습니다</h1>
+    <p><strong>진마케팅 LEADMAKERS사업팀 전문가</strong>가 확인 후<br>빠르게 연락드리겠습니다.</p>
+
+    <div class="btn-group">
+      <a href="https://pf.kakao.com/_JIN3368" target="_blank" class="btn">카카오톡 상담하기 (JIN3368)</a>
+      <a href="tel:010-8075-7895" class="btn">📞 전화 연결 010-8075-7895</a>
+    </div>
+
+    <div class="info">
+      <p><span class="highlight">대표전화</span> : 02-476-3223 / 010-8075-7895</p>
+      <p><span class="highlight">카카오톡</span> : JIN3368</p>
+      <p><span class="highlight">운영시간</span> : 09시 ~ 18시 (월~토)</p>
+    </div>
+
+    <footer>
+      © <span id="year"></span> JINMARKETING LEADMAKERS사업팀. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
