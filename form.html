@@ -18,9 +18,10 @@
   </style>
 
   <script>
-    // ✅ Apps Script 웹앱 URL만 교체
-    const ENDPOINT = "https://script.google.com/macros/s/여기에_웹앱_URL/exec";
+    // ✅ Google Apps Script 웹앱 주소 (배포 후 받은 URL)
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbx1Ocl6J7CYDli6HEH2J9qhzVcS76P8u6OHnnLZfPQva6s/exec";
 
+    // UTM 파라미터 수집
     function getUTM(){
       const u = new URL(location.href), g=k=>u.searchParams.get(k)||"";
       return {
@@ -44,6 +45,7 @@
         page: location.href
       };
 
+      // 실패해도 UX 유지: 4초 타임아웃 후 감사페이지로 이동
       const controller = new AbortController();
       const t = setTimeout(()=>controller.abort(), 4000);
 
@@ -55,10 +57,11 @@
           body: JSON.stringify(payload),
           signal: controller.signal
         });
-      }catch(_){}
-      finally{
+      }catch(_){
+        console.warn("submit ignored");
+      }finally{
         clearTimeout(t);
-        location.href = "/thank-you.html";
+        location.href = "/thank-you.html"; // 제출 후 이동
       }
     }
   </script>
