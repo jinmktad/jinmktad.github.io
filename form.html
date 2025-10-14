@@ -1,163 +1,114 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>문의 폼 | Leadmakers</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>상담 문의 | Leadmakers</title>
   <style>
-    body {
-      font-family: "Noto Sans KR", sans-serif;
-      background-color: #f7f8fa;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      margin: 0;
-      padding: 50px 0;
-    }
-    .container {
-      width: 90%;
-      max-width: 480px;
-      background: white;
-      padding: 35px 40px;
-      border-radius: 15px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-    }
-    h2 {
-      text-align: center;
-      color: #222;
-      font-weight: 700;
-      margin-bottom: 30px;
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: 600;
-      color: #333;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 10px 12px;
-      margin-top: 6px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 15px;
-      box-sizing: border-box;
-      transition: all 0.2s;
-    }
-    input:focus, select:focus, textarea:focus {
-      border-color: #007bff;
-      outline: none;
-    }
-    button {
-      width: 100%;
-      margin-top: 25px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    .success {
-      text-align: center;
-      color: green;
-      font-weight: bold;
-      margin-top: 20px;
-      display: none;
-    }
+    body{font-family:"Noto Sans KR",system-ui,apple-system,sans-serif;background:#f7f8fa;margin:0}
+    .wrap{min-height:100vh;display:grid;place-items:center;padding:40px 16px}
+    .card{width:100%;max-width:520px;background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 8px 22px rgba(0,0,0,.08);padding:28px}
+    h2{margin:0 0 18px;font-size:22px}
+    .muted{color:#6b7280;margin:-6px 0 18px;font-size:14px}
+    label{display:block;margin:12px 0 6px;font-weight:600}
+    input,select,textarea{width:100%;padding:12px 14px;border:1px solid #d1d5db;border-radius:10px;font-size:15px;box-sizing:border-box}
+    textarea{min-height:110px;resize:vertical}
+    button{margin-top:18px;width:100%;padding:14px;border:0;border-radius:12px;background:#111827;color:#fff;font-weight:700;cursor:pointer}
+    button:hover{background:#0b1220}
+    .success{display:none;margin-top:14px;color:#059669;font-weight:600;text-align:center}
+    .error{display:none;margin-top:14px;color:#b91c1c;font-weight:600;text-align:center}
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>상담 문의</h2>
-    <form id="leadForm">
-      <label>이름</label>
-      <input type="text" id="name" placeholder="홍길동" required>
+  <main class="wrap">
+    <section class="card">
+      <h2>상담 문의</h2>
+      <p class="muted">아래 정보를 남겨주시면 영업시간(월~토 09:00~18:00) 내 빠르게 연락드립니다.</p>
 
-      <label>전화번호</label>
-      <input type="tel" id="phone" placeholder="010-1234-5678" required>
+      <form id="leadForm">
+        <label>이름</label>
+        <input id="name" required placeholder="홍길동" />
 
-      <label>이메일</label>
-      <input type="email" id="email" placeholder="you@example.com" required>
+        <label>전화번호</label>
+        <input id="phone" type="tel" required placeholder="010-1234-5678" />
 
-      <label>현장명</label>
-      <input type="text" id="site" placeholder="예: 시그니처 속초 모델하우스">
+        <label>이메일</label>
+        <input id="email" type="email" placeholder="you@example.com" />
 
-      <label>지역</label>
-      <select id="region">
-        <option value="">지역을 선택하세요</option>
-        <option value="서울">서울</option>
-        <option value="경기">경기</option>
-        <option value="인천">인천</option>
-        <option value="강원">강원</option>
-        <option value="충청">충청</option>
-        <option value="전라">전라</option>
-        <option value="경상">경상</option>
-        <option value="제주">제주</option>
-      </select>
+        <label>현장명</label>
+        <input id="site" placeholder="예: ○○ 모델하우스 / ○○지점" />
 
-      <label>문의 유형</label>
-      <select id="category">
-        <option value="">선택하세요</option>
-        <option value="분양문의">분양문의</option>
-        <option value="창업상담">창업상담</option>
-        <option value="정책자금">정책자금</option>
-        <option value="언론홍보">언론홍보</option>
-        <option value="기타">기타</option>
-      </select>
+        <label>지역</label>
+        <select id="region">
+          <option value="">지역을 선택하세요</option>
+          <option>서울</option><option>경기</option><option>인천</option>
+          <option>강원</option><option>충청</option><option>전라</option>
+          <option>경상</option><option>제주</option>
+        </select>
 
-      <label>메시지</label>
-      <textarea id="message" rows="4" placeholder="상담 내용을 입력해주세요"></textarea>
+        <label>문의 유형</label>
+        <select id="category">
+          <option value="">선택하세요</option>
+          <option>분양문의</option><option>창업상담</option>
+          <option>정책자금</option><option>언론홍보</option><option>기타</option>
+        </select>
 
-      <button type="submit">제출하기</button>
-      <p id="successMsg" class="success">🎉 성공적으로 제출되었습니다!</p>
-    </form>
-  </div>
+        <label>메시지</label>
+        <textarea id="message" placeholder="원하시는 상담 내용을 적어주세요."></textarea>
+
+        <button type="submit">제출하기</button>
+        <div id="ok" class="success">🎉 성공적으로 제출되었습니다!</div>
+        <div id="ng" class="error">전송 중 오류가 발생했습니다. 다시 시도해주세요.</div>
+      </form>
+    </section>
+  </main>
 
   <script>
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbztVbi6cxJFp4Qy-qcXZmsqca6ku0nBTPXHo4oRLP6bsM1kjnuy075mUrDWyxmEu6aXNg/exec";
+    // ✅ 최신 웹앱 URL (ENDPOINT)
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbzDRGQ4A9apSGBiJP1FkyR8WBU7CZnLqRSxI39TNGPfMurzlyaAAL2J2JWIIZhUogec/exec";
+
+    // UTM 수집
+    function getUTM(){
+      const u = new URL(location.href), g=k=>u.searchParams.get(k)||"";
+      return { utm_source:g('utm_source'), utm_medium:g('utm_medium'),
+               utm_campaign:g('utm_campaign'), utm_term:g('utm_term'),
+               utm_content:g('utm_content') };
+    }
 
     document.getElementById("leadForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-
       const data = {
-        name: document.getElementById("name").value,
-        phone: document.getElementById("phone").value,
-        email: document.getElementById("email").value,
-        site: document.getElementById("site").value,
+        name: document.getElementById("name").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        site: document.getElementById("site").value.trim(),
         region: document.getElementById("region").value,
         category: document.getElementById("category").value,
-        message: document.getElementById("message").value,
-        utm_source: "manual",
-        utm_medium: "webform",
-        utm_campaign: "leadmakers",
-        referrer: document.referrer,
-        user_agent: navigator.userAgent,
-        page: window.location.href
+        message: document.getElementById("message").value.trim(),
+        ...getUTM(),
+        referrer: document.referrer || "",
+        user_agent: navigator.userAgent || "",
+        page: location.href
       };
 
-      try {
+      try{
         await fetch(ENDPOINT, {
           method: "POST",
           mode: "no-cors",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
         });
-
         document.getElementById("leadForm").reset();
-        document.getElementById("successMsg").style.display = "block";
-      } catch (err) {
-        alert("전송 중 오류가 발생했습니다.");
+        document.getElementById("ok").style.display = "block";
+        document.getElementById("ng").style.display = "none";
+
+        // 제출 후 감사 페이지로 이동하려면 아래 한 줄 주석 해제
+        // location.href = "/thank-you.html";
+      }catch(err){
+        document.getElementById("ng").style.display = "block";
         console.error(err);
       }
     });
   </script>
 </body>
 </html>
-
