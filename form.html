@@ -36,19 +36,19 @@
         <input id="email" type="email" placeholder="you@example.com" />
 
         <label>현장명</label>
-        <input id="site" placeholder="예: ○○ 모델하우스 / ○○지점" />
+        <input id="site" placeholder="예: ○○ 모델하우스 / ○○지점" required />
 
         <label>지역</label>
-        <select id="region">
-          <option value="">지역을 선택하세요</option>
+        <select id="region" required>
+          <option value="" disabled selected>지역을 선택하세요</option>
           <option>서울</option><option>경기</option><option>인천</option>
           <option>강원</option><option>충청</option><option>전라</option>
           <option>경상</option><option>제주</option>
         </select>
 
         <label>문의 유형</label>
-        <select id="category">
-          <option value="">선택하세요</option>
+        <select id="category" required>
+          <option value="" disabled selected>선택하세요</option>
           <option>분양문의</option><option>창업상담</option>
           <option>정책자금</option><option>언론홍보</option><option>기타</option>
         </select>
@@ -64,9 +64,9 @@
   </main>
 
   <script>
-    // ✅ 최신 웹앱 URL (ENDPOINT)
-    const ENDPOINT =  "https://script.google.com/macros/s/AKfycbzDRGQ4A9apSGBiJP1FkyR8WBU7CZnLqRSxI39TNGPfMurzlyaAAL2J2JWIIZhUogec/exec";
-    // UTM 수집
+    // 최신 웹앱 URL (ENDPOINT)
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbzDRGQ4A9apSGBiJP1FkyR8WBU7CZnLqRSxI39TNGPfMurzlyaAAL2J2JWIIZhUogec/exec";
+
     function getUTM(){
       const u = new URL(location.href), g=k=>u.searchParams.get(k)||"";
       return { utm_source:g('utm_source'), utm_medium:g('utm_medium'),
@@ -100,9 +100,6 @@
         document.getElementById("leadForm").reset();
         document.getElementById("ok").style.display = "block";
         document.getElementById("ng").style.display = "none";
-
-        // 제출 후 감사 페이지로 이동하려면 아래 한 줄 주석 해제
-        // location.href = "/thank-you.html";
       }catch(err){
         document.getElementById("ng").style.display = "block";
         console.error(err);
