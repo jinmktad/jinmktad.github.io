@@ -13,6 +13,7 @@
     textarea{min-height:110px;resize:vertical}
     button{margin-top:18px;width:100%;padding:14px;border:0;border-radius:12px;background:#111827;color:#fff;font-weight:700;cursor:pointer}
     button:hover{background:#0b1220}
+    /* 성공/오류 메시지는 리다이렉트 버전에서 사용되지 않으므로 숨김 처리 (스타일만 유지) */
     .success{display:none;margin-top:14px;color:#059669;font-weight:600;text-align:center}
     .error{display:none;margin-top:14px;color:#b91c1c;font-weight:600;text-align:center}
   </style></head><body>
@@ -54,13 +55,13 @@
 
         <button type="submit">제출하기</button>
         <div id="ok" class="success">🎉 성공적으로 제출되었습니다!</div>
-        <div id="ng" class="error">전송 중 오류가 발생했습니다. 다시 시도해주세요.</div>
+        <div id="ng" class="error">전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</div>
       </form>
     </section>
   </main>
 
   <script>
-    // ✅ 새 Apps Script 웹앱 URL 적용
+    // ✅ 당신의 Apps Script 웹앱 URL
     const ENDPOINT = "https://script.google.com/macros/s/AKfycbzDRGQ4A9apSGBiJP1FkyR8WBU7CZnLqRSxI39TNGPfMurzlyaAAL2J2JWIIZhUogec/exec";
 
     function getUTM(){
@@ -72,6 +73,12 @@
 
     document.getElementById("leadForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      
+      // 버튼 비활성화 (중복 제출 방지 및 처리 중 표시)
+      const submitButton = e.target.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      submitButton.textContent = '제출 중...';
+
       const data = {
         name: document.getElementById("name").value.trim(),
         phone: document.getElementById("phone").value.trim(),
@@ -93,13 +100,17 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
         });
-        document.getElementById("leadForm").reset();
-        document.getElementById("ok").style.display = "block";
-        document.getElementById("ng").style.display = "none";
+        
+        // ⭐⭐ 성공 시 thank-you.html로 이동 (리다이렉트) ⭐⭐
+        location.href = "/thank-you.html"; 
+
       }catch(err){
+        // 오류 발생 시 버튼 재활성화 및 오류 메시지 표시
+        submitButton.disabled = false;
+        submitButton.textContent = '제출하기';
         document.getElementById("ng").style.display = "block";
         document.getElementById("ok").style.display = "none";
-        console.error(err);
+        console.error("Fetch Error:", err);
       }
     });
   </script></body></html>
