@@ -3,48 +3,122 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leadmakers Form</title>
+  <title>리드 등록 폼</title>
+  <style>
+    body {
+      font-family: "Noto Sans KR", sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    form {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #444;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .success {
+      text-align: center;
+      color: green;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <h2>문의 폼</h2>
   <form id="leadForm">
-    <label>이름: <input type="text" name="name" required></label><br><br>
-    <label>전화번호: <input type="text" name="phone" required></label><br><br>
-    <label>이메일: <input type="email" name="email" required></label><br><br>
-    <label>메시지:<br><textarea name="message" rows="4" cols="40"></textarea></label><br><br>
+    <h2>리드 등록</h2>
+
+    <label>이름</label>
+    <input type="text" id="name" required>
+
+    <label>전화번호</label>
+    <input type="tel" id="phone" required>
+
+    <label>이메일</label>
+    <input type="email" id="email" required>
+
+    <label>메시지</label>
+    <textarea id="message" rows="3"></textarea>
+
     <button type="submit">제출하기</button>
+    <p class="success" id="successMsg" style="display:none;">성공적으로 제출되었습니다 🎉</p>
   </form>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbztVbi6cxJFp4Qy-qcXZmsqca6ku0nBTPXHo4oRLP6bsM1kjnuy075mUrDWyxmEu6aXNg/exec";
+    // ✅ 실제 데이터가 전송될 Apps Script 웹앱 URL
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbztVbi6cxJFp4Qy-qcXZmsqca6ku0nBTPXHo4oRLP6bsM1kjnuy075mUrDWyxmEu6aXNg/exec";
 
-    const form = document.getElementById("leadForm");
-    form.addEventListener("submit", e => {
+    document.getElementById("leadForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData);
 
-      fetch(scriptURL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.name,
-          phone: data.phone,
-          email: data.email,
-          message: data.message,
-          kakao: "JIN3368",
-          contact_email: "wb6464@gmail.com"
-        })
-      })
-      .then(() => {
-        alert("제출이 완료되었습니다! 감사합니다 😊");
-        window.location.href = "thank-you.html";
-      })
-      .catch(error => alert("전송 중 오류가 발생했습니다: " + error));
+      const data = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        email: document.getElementById("email").value,
+        message: document.getElementById("message").value,
+        utm_source: "manual",
+        utm_medium: "webform",
+        utm_campaign: "leadmakers",
+        utm_term: "",
+        utm_content: "",
+        referrer: document.referrer,
+        user_agent: navigator.userAgent,
+        page: window.location.href
+      };
+
+      try {
+        const res = await fetch(ENDPOINT, {
+          method: "POST",
+          mode: "no-cors", // 구글 웹앱은 no-cors 모드 사용
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        document.getElementById("successMsg").style.display = "block";
+        document.getElementById("leadForm").reset();
+
+      } catch (err) {
+        alert("전송 중 오류가 발생했습니다. 다시 시도해주세요.");
+        console.error(err);
+      }
     });
   </script>
 </body>
 </html>
-
