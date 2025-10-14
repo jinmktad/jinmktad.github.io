@@ -3,45 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>리드 등록 폼</title>
+  <title>문의 폼 | Leadmakers</title>
   <style>
     body {
       font-family: "Noto Sans KR", sans-serif;
-      background-color: #f4f4f4;
+      background-color: #f7f8fa;
       display: flex;
       justify-content: center;
-      align-items: center;
-      height: 100vh;
+      align-items: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 50px 0;
     }
-    form {
-      background: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      width: 350px;
+    .container {
+      width: 90%;
+      max-width: 480px;
+      background: white;
+      padding: 35px 40px;
+      border-radius: 15px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
     }
     h2 {
       text-align: center;
-      color: #333;
-      margin-bottom: 20px;
+      color: #222;
+      font-weight: 700;
+      margin-bottom: 30px;
     }
     label {
       display: block;
-      margin-top: 10px;
-      font-weight: bold;
-      color: #444;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #333;
     }
-    input, textarea {
+    input, select, textarea {
       width: 100%;
-      padding: 10px;
+      padding: 10px 12px;
       margin-top: 6px;
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 15px;
+      box-sizing: border-box;
+      transition: all 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #007bff;
+      outline: none;
     }
     button {
-      margin-top: 20px;
       width: 100%;
+      margin-top: 25px;
       background-color: #007bff;
       color: #fff;
       border: none;
@@ -49,6 +59,7 @@
       font-size: 16px;
       border-radius: 6px;
       cursor: pointer;
+      transition: background 0.2s;
     }
     button:hover {
       background-color: #0056b3;
@@ -56,33 +67,60 @@
     .success {
       text-align: center;
       color: green;
-      margin-top: 15px;
       font-weight: bold;
+      margin-top: 20px;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <form id="leadForm">
-    <h2>리드 등록</h2>
+  <div class="container">
+    <h2>상담 문의</h2>
+    <form id="leadForm">
+      <label>이름</label>
+      <input type="text" id="name" placeholder="홍길동" required>
 
-    <label>이름</label>
-    <input type="text" id="name" required>
+      <label>전화번호</label>
+      <input type="tel" id="phone" placeholder="010-1234-5678" required>
 
-    <label>전화번호</label>
-    <input type="tel" id="phone" required>
+      <label>이메일</label>
+      <input type="email" id="email" placeholder="you@example.com" required>
 
-    <label>이메일</label>
-    <input type="email" id="email" required>
+      <label>현장명</label>
+      <input type="text" id="site" placeholder="예: 시그니처 속초 모델하우스">
 
-    <label>메시지</label>
-    <textarea id="message" rows="3"></textarea>
+      <label>지역</label>
+      <select id="region">
+        <option value="">지역을 선택하세요</option>
+        <option value="서울">서울</option>
+        <option value="경기">경기</option>
+        <option value="인천">인천</option>
+        <option value="강원">강원</option>
+        <option value="충청">충청</option>
+        <option value="전라">전라</option>
+        <option value="경상">경상</option>
+        <option value="제주">제주</option>
+      </select>
 
-    <button type="submit">제출하기</button>
-    <p class="success" id="successMsg" style="display:none;">성공적으로 제출되었습니다 🎉</p>
-  </form>
+      <label>문의 유형</label>
+      <select id="category">
+        <option value="">선택하세요</option>
+        <option value="분양문의">분양문의</option>
+        <option value="창업상담">창업상담</option>
+        <option value="정책자금">정책자금</option>
+        <option value="언론홍보">언론홍보</option>
+        <option value="기타">기타</option>
+      </select>
+
+      <label>메시지</label>
+      <textarea id="message" rows="4" placeholder="상담 내용을 입력해주세요"></textarea>
+
+      <button type="submit">제출하기</button>
+      <p id="successMsg" class="success">🎉 성공적으로 제출되었습니다!</p>
+    </form>
+  </div>
 
   <script>
-    // ✅ 실제 데이터가 전송될 Apps Script 웹앱 URL
     const ENDPOINT = "https://script.google.com/macros/s/AKfycbztVbi6cxJFp4Qy-qcXZmsqca6ku0nBTPXHo4oRLP6bsM1kjnuy075mUrDWyxmEu6aXNg/exec";
 
     document.getElementById("leadForm").addEventListener("submit", async (e) => {
@@ -92,33 +130,34 @@
         name: document.getElementById("name").value,
         phone: document.getElementById("phone").value,
         email: document.getElementById("email").value,
+        site: document.getElementById("site").value,
+        region: document.getElementById("region").value,
+        category: document.getElementById("category").value,
         message: document.getElementById("message").value,
         utm_source: "manual",
         utm_medium: "webform",
         utm_campaign: "leadmakers",
-        utm_term: "",
-        utm_content: "",
         referrer: document.referrer,
         user_agent: navigator.userAgent,
         page: window.location.href
       };
 
       try {
-        const res = await fetch(ENDPOINT, {
+        await fetch(ENDPOINT, {
           method: "POST",
-          mode: "no-cors", // 구글 웹앱은 no-cors 모드 사용
+          mode: "no-cors",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
         });
 
-        document.getElementById("successMsg").style.display = "block";
         document.getElementById("leadForm").reset();
-
+        document.getElementById("successMsg").style.display = "block";
       } catch (err) {
-        alert("전송 중 오류가 발생했습니다. 다시 시도해주세요.");
+        alert("전송 중 오류가 발생했습니다.");
         console.error(err);
       }
     });
   </script>
 </body>
 </html>
+
