@@ -13,9 +13,9 @@
     textarea{min-height:110px;resize:vertical}
     button{margin-top:18px;width:100%;padding:14px;border:0;border-radius:12px;background:#111827;color:#fff;font-weight:700;cursor:pointer}
     button:hover{background:#0b1220}
-    /* 성공/오류 메시지는 리다이렉트 버전에서 사용되지 않으므로 숨김 처리 (스타일만 유지) */
-    .success{display:none;margin-top:14px;color:#059669;font-weight:600;text-align:center}
-    .error{display:none;margin-top:14px;color:#b91c1c;font-weight:600;text-align:center}
+    .success,.error{display:none;margin-top:14px;font-weight:600;text-align:center}
+    .success{color:#059669}
+    .error{color:#b91c1c}
   </style></head><body>
   <main class="wrap">
     <section class="card">
@@ -61,8 +61,8 @@
   </main>
 
   <script>
-    // ✅ 당신의 Apps Script 웹앱 URL
-    const ENDPOINT = https://script.google.com/macros/s/AKfycbw8De3HgWP4KFnbY_0R62IfJLoUndUgckKwxvrejFFKGoeX6YTtHIneR_OO6-NrujD_Dw/exec;
+    // ✅ 새로 배포된 Apps Script URL이 적용되었습니다! 
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbw8De3HgWP4KFnbY_0R62IfJLoUndUgckKwxvrejFFKGoeX6YTtHIneR_OO6-NrujD_Dw/exec";
 
     function getUTM(){
       const u = new URL(location.href), g=k=>u.searchParams.get(k)||"";
@@ -74,7 +74,6 @@
     document.getElementById("leadForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       
-      // 버튼 비활성화 (중복 제출 방지 및 처리 중 표시)
       const submitButton = e.target.querySelector('button[type="submit"]');
       submitButton.disabled = true;
       submitButton.textContent = '제출 중...';
@@ -94,17 +93,17 @@
       };
 
       try{
-        await fetch(ENDPOINT, {
+        const response = await fetch(ENDPOINT, {
           method: "POST",
-          mode: "no-cors",
+          mode: "no-cors", 
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
         });
         
-        // ⭐⭐ 성공 시 thank-you.html로 이동 (리다이렉트) ⭐⭐
-        location.href ="https://jinmktad.github.io/thank-you.html";
+        // 🚨 응답 상태와 관계없이 (no-cors 모드이므로), 리다이렉트 실행
+        location.href = "/thank-you.html"; 
+
       }catch(err){
-        // 오류 발생 시 버튼 재활성화 및 오류 메시지 표시
         submitButton.disabled = false;
         submitButton.textContent = '제출하기';
         document.getElementById("ng").style.display = "block";
