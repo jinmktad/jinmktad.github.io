@@ -64,9 +64,10 @@
   </main>
 
   <script>
-    // 최신 웹앱 URL (ENDPOINT)
+    // ✅ 최신 웹앱 URL (ENDPOINT)
     const ENDPOINT = "https://script.google.com/macros/s/AKfycbzDRGQ4A9apSGBiJP1FkyR8WBU7CZnLqRSxI39TNGPfMurzlyaAAL2J2JWIIZhUogec/exec";
 
+    // UTM 수집
     function getUTM(){
       const u = new URL(location.href), g=k=>u.searchParams.get(k)||"";
       return { utm_source:g('utm_source'), utm_medium:g('utm_medium'),
@@ -100,6 +101,9 @@
         document.getElementById("leadForm").reset();
         document.getElementById("ok").style.display = "block";
         document.getElementById("ng").style.display = "none";
+
+        // 제출 후 감사 페이지로 이동하려면 아래 한 줄 주석 해제
+        // location.href = "/thank-you.html";
       }catch(err){
         document.getElementById("ng").style.display = "block";
         console.error(err);
@@ -108,4 +112,3 @@
   </script>
 </body>
 </html>
-
