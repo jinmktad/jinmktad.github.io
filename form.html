@@ -64,14 +64,17 @@
   </main>
 
   <script>
-    // ✅ 최신 웹앱 URL (ENDPOINT)
-    const ENDPOINT = https://script.google.com/macros/s/AKfycbyT_VaTbz7v-Kz3Vqf1SpfI9nC1gGH2zWQbCYoC3a375jyV6p-ooeb5Vl6B2SoycUcitg/exec
+    // ✅ 최신 웹앱 ENDPOINT (배포ID 반영)
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbwnICtUoFuIl4RxdsGWn_CHmi70pnHZDeEHb_LETi67K7lP9ELbLsl-NQmqpgKepNVDqg/exec";
+
     // UTM 수집
     function getUTM(){
       const u = new URL(location.href), g=k=>u.searchParams.get(k)||"";
-      return { utm_source:g('utm_source'), utm_medium:g('utm_medium'),
-               utm_campaign:g('utm_campaign'), utm_term:g('utm_term'),
-               utm_content:g('utm_content') };
+      return {
+        utm_source:g('utm_source'), utm_medium:g('utm_medium'),
+        utm_campaign:g('utm_campaign'), utm_term:g('utm_term'),
+        utm_content:g('utm_content')
+      };
     }
 
     document.getElementById("leadForm").addEventListener("submit", async (e) => {
@@ -93,7 +96,7 @@
       try{
         await fetch(ENDPOINT, {
           method: "POST",
-          mode: "no-cors",
+          mode: "no-cors",                // Apps Script 웹앱과 통신 시 no-cors 권장
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
         });
@@ -111,5 +114,3 @@
   </script>
 </body>
 </html>
-
-
