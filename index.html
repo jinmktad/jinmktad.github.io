@@ -1,88 +1,105 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
+<!DOCTYPE html><html lang="ko"><head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>신청이 완료되었습니다｜진마케팅 LEADMAKERS 사업팀</title>
-
-  <!-- ✅ GA4 코드 (측정 ID만 교체하세요) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-WXDG9MLL7');  // ← GA4 측정 ID 입력
-
-    // 전환 이벤트 전송
-    gtag('event', 'generate_lead', {
-      'event_category': 'form',
-      'event_label': 'lead_complete',
-      'value': 1
-    });
-  </script>
-
+  <title>상담 문의 | Leadmakers</title>
   <style>
-    body {
-      font-family: 'Noto Sans KR', sans-serif;
-      background-color: #f9fafb;
-      text-align: center;
-      padding: 60px 20px;
-      color: #222;
-    }
-    .box {
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      display: inline-block;
-      max-width: 480px;
-    }
-    h1 {
-      font-size: 22px;
-      color: #0c4da2;
-      margin-bottom: 20px;
-    }
-    p {
-      font-size: 15px;
-      line-height: 1.6;
-    }
-    .btn {
-      display: block;
-      margin: 25px auto 10px;
-      padding: 15px;
-      width: 80%;
-      background-color: #2b7a0b;
-      color: white;
-      border-radius: 10px;
-      font-size: 16px;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .info {
-      margin-top: 30px;
-      font-size: 15px;
-      color: #555;
-    }
-  </style>
-</head>
+    body{font-family:"Noto Sans KR",system-ui,apple-system,sans-serif;background:#f7f8fa;margin:0}
+    .wrap{min-height:100vh;display:grid;place-items:center;padding:40px 16px}
+    .card{width:100%;max-width:520px;background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 8px 22px rgba(0,0,0,.08);padding:28px}
+    h2{margin:0 0 18px;font-size:22px}
+    .muted{color:#6b7280;margin:-6px 0 18px;font-size:14px}
+    label{display:block;margin:12px 0 6px;font-weight:600}
+    input,select,textarea{width:100%;padding:12px 14px;border:1px solid #d1d5db;border-radius:10px;font-size:15px;box-sizing:border-box}
+    textarea{min-height:110px;resize:vertical}
+    button{margin-top:18px;width:100%;padding:14px;border:0;border-radius:12px;background:#111827;color:#fff;font-weight:700;cursor:pointer}
+    button:hover{background:#0b1220}
+    .success{display:none;margin-top:14px;color:#059669;font-weight:600;text-align:center}
+    .error{display:none;margin-top:14px;color:#b91c1c;font-weight:600;text-align:center}
+  </style></head><body>
+  <main class="wrap">
+    <section class="card">
+      <h2>상담 문의</h2>
+      <p class="muted">아래 정보를 남겨주시면 영업시간(월~토 09:00~18:00) 내 연락드립니다.</p>
 
-<body>
+      <form id="leadForm">
+        <label>이름</label>
+        <input id="name" required placeholder="홍길동" />
 
-  <div class="box">
-    <h1>상담 신청이 완료되었습니다!</h1>
-    <p>진마케팅 LEADMAKERS 사업팀에서 확인 후 신속히 연락드리겠습니다.</p>
+        <label>전화번호</label>
+        <input id="phone" type="tel" required placeholder="010-1234-5678" />
 
-    <!-- ✅ 전화 연결 버튼 -->
-    <a href="tel:01080757895" class="btn" onclick="gtag('event','click_phone',{event_category:'contact',event_label:'phone_button'});">
-      📞 전화 연결하기
-    </a>
+        <label>이메일</label>
+        <input id="email" type="email" placeholder="you@example.com" />
 
-    <div class="info">
-      <p>☎ 02-476-3223 / 010-8075-7895</p>
-      <p>카카오톡 ID : JIN3368</p>
-      <p>운영시간 : 월~토 09:00~18:00</p>
-    </div>
-  </div>
+        <label>현장명</label>
+        <input id="site" placeholder="예: ○○ 모델하우스 / ○○지점" />
 
-</body>
-</html>
+        <label>지역</label>
+        <select id="region">
+          <option value="">지역을 선택하세요</option>
+          <option>서울</option><option>경기</option><option>인천</option>
+          <option>강원</option><option>충청</option><option>전라</option>
+          <option>경상</option><option>제주</option>
+        </select>
+
+        <label>문의 유형</label>
+        <select id="category">
+          <option value="">선택하세요</option>
+          <option>분양문의</option><option>창업상담</option>
+          <option>정책자금</option><option>언론홍보</option><option>기타</option>
+        </select>
+
+        <label>메시지</label>
+        <textarea id="message" placeholder="원하시는 상담 내용을 적어주세요."></textarea>
+
+        <button type="submit">제출하기</button>
+        <div id="ok" class="success">🎉 성공적으로 제출되었습니다!</div>
+        <div id="ng" class="error">전송 중 오류가 발생했습니다. 다시 시도해주세요.</div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // ✅ 새 Apps Script 웹앱 URL 적용
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbzDRGQ4A9apSGBiJP1FkyR8WBU7CZnLqRSxI39TNGPfMurzlyaAAL2J2JWIIZhUogec/exec";
+
+    function getUTM(){
+      const u = new URL(location.href), g=k=>u.searchParams.get(k)||"";
+      return { utm_source:g('utm_source'), utm_medium:g('utm_medium'),
+               utm_campaign:g('utm_campaign'), utm_term:g('utm_term'),
+               utm_content:g('utm_content') };
+    }
+
+    document.getElementById("leadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById("name").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        site: document.getElementById("site").value.trim(),
+        region: document.getElementById("region").value,
+        category: document.getElementById("category").value,
+        message: document.getElementById("message").value.trim(),
+        ...getUTM(),
+        referrer: document.referrer || "",
+        user_agent: navigator.userAgent || "",
+        page: location.href
+      };
+
+      try{
+        await fetch(ENDPOINT, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        document.getElementById("leadForm").reset();
+        document.getElementById("ok").style.display = "block";
+        document.getElementById("ng").style.display = "none";
+      }catch(err){
+        document.getElementById("ng").style.display = "block";
+        document.getElementById("ok").style.display = "none";
+        console.error(err);
+      }
+    });
+  </script></body></html>
