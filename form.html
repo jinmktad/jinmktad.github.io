@@ -64,17 +64,15 @@
   </main>
 
   <script>
-    // ✅ 최신 웹앱 ENDPOINT (배포ID 반영)
+    // ✅ 최신 웹앱 ENDPOINT (배포 ID 반영)
     const ENDPOINT = "https://script.google.com/macros/s/AKfycbwnICtUoFuIl4RxdsGWn_CHmi70pnHZDeEHb_LETi67K7lP9ELbLsl-NQmqpgKepNVDqg/exec";
 
     // UTM 수집
     function getUTM(){
       const u = new URL(location.href), g=k=>u.searchParams.get(k)||"";
-      return {
-        utm_source:g('utm_source'), utm_medium:g('utm_medium'),
-        utm_campaign:g('utm_campaign'), utm_term:g('utm_term'),
-        utm_content:g('utm_content')
-      };
+      return { utm_source:g('utm_source'), utm_medium:g('utm_medium'),
+               utm_campaign:g('utm_campaign'), utm_term:g('utm_term'),
+               utm_content:g('utm_content') };
     }
 
     document.getElementById("leadForm").addEventListener("submit", async (e) => {
@@ -93,10 +91,10 @@
         page: location.href
       };
 
-      try{
+      try {
         await fetch(ENDPOINT, {
           method: "POST",
-          mode: "no-cors",                // Apps Script 웹앱과 통신 시 no-cors 권장
+          mode: "no-cors",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
         });
@@ -104,9 +102,9 @@
         document.getElementById("ok").style.display = "block";
         document.getElementById("ng").style.display = "none";
 
-        // 제출 후 감사 페이지로 이동하려면 아래 한 줄 주석 해제
+        // 감사 페이지로 이동하려면 아래 한 줄 해제
         // location.href = "/thank-you.html";
-      }catch(err){
+      } catch (err) {
         document.getElementById("ng").style.display = "block";
         console.error(err);
       }
