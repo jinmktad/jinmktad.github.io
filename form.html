@@ -1,93 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>상담 신청 | 진마케팅 LEADMAKERS</title>
-  <style>
-    body{font-family:-apple-system,system-ui,"Noto Sans KR",sans-serif;margin:0;display:grid;place-items:center;min-height:100vh;background:#f7f8fb;color:#111}
-    .card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.06);padding:28px;max-width:560px;width:92%}
-    h1{margin:0 0 10px;font-size:22px}
-    p{margin:0 0 18px;color:#6b7280}
-    label{display:block;margin:10px 0 6px}
-    input,textarea{width:100%;padding:12px 14px;border:1px solid #d1d5db;border-radius:10px;font-size:15px}
-    textarea{min-height:110px;resize:vertical}
-    button{margin-top:16px;width:100%;padding:14px;border:0;border-radius:12px;background:#111827;color:#fff;font-weight:700;cursor:pointer}
-    button:hover{background:#0b1220}
-    .meta{margin-top:10px;color:#9ca3af;font-size:12px}
-  </style>
-
-  <script>
-    // ✅ Google Apps Script 웹앱 주소 (배포 후 받은 URL)
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbx1Ocl6J7CYDli6HEH2J9qhzVcS76P8u6OHnnLZfPQva6s/exec";
-
-    // UTM 파라미터 수집
-    function getUTM(){
-      const u = new URL(location.href), g=k=>u.searchParams.get(k)||"";
-      return {
-        utm_source:g('utm_source'), utm_medium:g('utm_medium'),
-        utm_campaign:g('utm_campaign'), utm_term:g('utm_term'),
-        utm_content:g('utm_content')
-      };
-    }
-
-    async function submitLead(e){
-      e.preventDefault();
-      const f = e.target;
-      const payload = {
-        name: f.name.value.trim(),
-        phone: f.phone.value.trim(),
-        email: f.email.value.trim(),
-        message: f.message.value.trim(),
-        ...getUTM(),
-        referrer: document.referrer || "",
-        user_agent: navigator.userAgent || "",
-        page: location.href
-      };
-
-      // 실패해도 UX 유지: 4초 타임아웃 후 감사페이지로 이동
-      const controller = new AbortController();
-      const t = setTimeout(()=>controller.abort(), 4000);
-
-      try{
-        await fetch(ENDPOINT, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-          signal: controller.signal
-        });
-      }catch(_){
-        console.warn("submit ignored");
-      }finally{
-        clearTimeout(t);
-        location.href = "/thank-you.html"; // 제출 후 이동
-      }
-    }
-  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leadmakers Form</title>
 </head>
 <body>
-  <main class="card">
-    <h1>상담 신청</h1>
-    <p>전문가가 영업시간(월~토 09:00~18:00) 내 빠르게 연락드립니다.</p>
+  <h2>문의 폼</h2>
+  <form id="leadForm">
+    <label>이름: <input type="text" name="name" required></label><br><br>
+    <label>전화번호: <input type="text" name="phone" required></label><br><br>
+    <label>이메일: <input type="email" name="email" required></label><br><br>
+    <label>메시지:<br><textarea name="message" rows="4" cols="40"></textarea></label><br><br>
+    <button type="submit">제출하기</button>
+  </form>
 
-    <form onsubmit="submitLead(event)">
-      <label>이름</label>
-      <input name="name" required />
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbztVbi6cxJFp4Qy-qcXZmsqca6ku0nBTPXHo4oRLP6bsM1kjnuy075mUrDWyxmEu6aXNg/exec";
 
-      <label>전화번호</label>
-      <input name="phone" type="tel" required />
+    const form = document.getElementById("leadForm");
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
 
-      <label>이메일 (선택)</label>
-      <input name="email" type="email" />
-
-      <label>문의 내용 (선택)</label>
-      <textarea name="message" placeholder="원하시는 상담 내용을 적어주세요."></textarea>
-
-      <button type="submit">신청하기</button>
-      <div class="meta">※ 제출 즉시 완료(감사) 페이지로 이동합니다.</div>
-    </form>
-  </main>
+      fetch(scriptURL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.name,
+          phone: data.phone,
+          email: data.email,
+          message: data.message,
+          kakao: "JIN3368",
+          contact_email: "wb6464@gmail.com"
+        })
+      })
+      .then(() => {
+        alert("제출이 완료되었습니다! 감사합니다 😊");
+        window.location.href = "thank-you.html";
+      })
+      .catch(error => alert("전송 중 오류가 발생했습니다: " + error));
+    });
+  </script>
 </body>
 </html>
 
