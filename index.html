@@ -28,34 +28,52 @@
 
           <form id="leadForm" novalidate>
             <div class="row g-3">
+              <!-- 이름 -->
               <div class="col-md-6">
                 <label class="form-label required">이름</label>
                 <input type="text" name="name" class="form-control" required />
               </div>
+
+              <!-- 연락처 -->
               <div class="col-md-6">
                 <label class="form-label required">연락처</label>
                 <input type="tel" name="phone" class="form-control" placeholder="예: 010-1234-5678" required />
               </div>
 
+              <!-- 이메일 -->
               <div class="col-md-6">
                 <label class="form-label">이메일</label>
                 <input type="email" name="email" class="form-control" />
               </div>
+
+              <!-- 카테고리 선택 -->
               <div class="col-md-6">
-                <!-- ✅ 여기 변경됨: 사이트명 → 현장명 -->
-                <label class="form-label">현장명</label>
-                <input type="text" name="site" class="form-control" placeholder="예: 시그니처 속초" />
+                <label class="form-label required">카테고리</label>
+                <select name="category" class="form-select" required>
+                  <option value="">선택하세요</option>
+                  <option value="부동산분양">부동산분양</option>
+                  <option value="프랜차이즈창업">프랜차이즈창업</option>
+                  <option value="정책자금컨설팅">정책자금컨설팅</option>
+                  <option value="교육학원">교육·학원</option>
+                  <option value="홍보마케팅">홍보·마케팅</option>
+                  <option value="기타">기타</option>
+                </select>
               </div>
 
+              <!-- 사업명 -->
+              <div class="col-md-6">
+                <label class="form-label required">사업명</label>
+                <input type="text" name="site" class="form-control"
+                       placeholder="예: 시그니처 속초, 쾌발 치킨, 정책자금 컨설팅 등" required />
+              </div>
+
+              <!-- 지역 -->
               <div class="col-md-6">
                 <label class="form-label">지역</label>
-                <input type="text" name="region" class="form-control" />
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">카테고리</label>
-                <input type="text" name="category" class="form-control" />
+                <input type="text" name="region" class="form-control" placeholder="예: 서울, 부산 등" />
               </div>
 
+              <!-- 문의 내용 -->
               <div class="col-12">
                 <label class="form-label">문의 내용</label>
                 <textarea name="message" rows="4" class="form-control" placeholder="상세 내용을 입력해 주세요."></textarea>
@@ -72,6 +90,7 @@
               <input type="hidden" name="page"        id="page" />
             </div>
 
+            <!-- 제출 버튼 -->
             <div class="d-grid mt-4">
               <button id="submitBtn" type="submit" class="btn btn-primary btn-lg">
                 <span class="submit-text">제출하기</span>
@@ -118,5 +137,44 @@
       spinner.classList.toggle("d-none", !on);
       submitText.textContent = on ? "전송 중..." : "제출하기";
       msg.textContent = on ? "잠시만 기다려 주세요." : "";
-      msg.className = o
+      msg.className = on ? "text-primary" : "text-muted";
+    }
 
+    form.addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      if(!form.checkValidity()){ form.reportValidity(); return; }
+
+      setSendingState(true);
+      try {
+        // ✅ FormData 방식으로 전송 (CORS 문제 없음)
+        const formData = new FormData(form);
+
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: formData
+        });
+
+        const text = await res.text();
+        let json;
+        try { json = JSON.parse(text); } catch { json = { ok: res.ok }; }
+
+        if (json.ok) {
+          alert("✅ 전송이 완료되었습니다. 감사합니다!");
+          msg.textContent = "전송 성공";
+          msg.className = "text-success";
+          form.reset();
+          setTimeout(()=>{ window.location.href = THANK_YOU_URL; }, 1000);
+        } else {
+          throw new Error(json.error || "서버 오류");
+        }
+      } catch (err) {
+        alert("❌ 전송 실패: 잠시 후 다시 시도해 주세요.");
+        msg.textContent = "전송 실패: " + (err.message || err);
+        msg.className = "text-danger";
+      } finally {
+        setSendingState(false);
+      }
+    });
+  </script>
+</body>
+</html>
