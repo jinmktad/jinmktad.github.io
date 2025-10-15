@@ -42,8 +42,9 @@
                 <input type="email" name="email" class="form-control" />
               </div>
               <div class="col-md-6">
-                <label class="form-label">사이트명</label>
-                <input type="text" name="site" class="form-control" />
+                <!-- ✅ 여기 변경됨: 사이트명 → 현장명 -->
+                <label class="form-label">현장명</label>
+                <input type="text" name="site" class="form-control" placeholder="예: 시그니처 속초" />
               </div>
 
               <div class="col-md-6">
@@ -60,15 +61,15 @@
                 <textarea name="message" rows="4" class="form-control" placeholder="상세 내용을 입력해 주세요."></textarea>
               </div>
 
-              <!-- Hidden fields -->
-              <input type="hidden" name="utm_source" id="utm_source" />
-              <input type="hidden" name="utm_medium" id="utm_medium" />
+              <!-- Hidden tracking fields -->
+              <input type="hidden" name="utm_source"  id="utm_source" />
+              <input type="hidden" name="utm_medium"  id="utm_medium" />
               <input type="hidden" name="utm_campaign" id="utm_campaign" />
-              <input type="hidden" name="utm_term" id="utm_term" />
+              <input type="hidden" name="utm_term"    id="utm_term" />
               <input type="hidden" name="utm_content" id="utm_content" />
-              <input type="hidden" name="referrer" id="referrer" />
-              <input type="hidden" name="user_agent" id="user_agent" />
-              <input type="hidden" name="page" id="page" />
+              <input type="hidden" name="referrer"    id="referrer" />
+              <input type="hidden" name="user_agent"  id="user_agent" />
+              <input type="hidden" name="page"        id="page" />
             </div>
 
             <div class="d-grid mt-4">
@@ -91,16 +92,16 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
   <script>
-    // ✅ Apps Script Web App URL
+    // ✅ Apps Script Web App URL (반드시 /exec)
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz4b2QLACQGUPxkuLnIzgQEGzvwY4zLDHJ0GAKCVcVVX4Dm4gGRd5B2XZJ70K-dxnEZcw/exec";
+    // ✅ 전송 후 감사페이지로 이동
+    const THANK_YOU_URL = "thank-you.html";
 
-    // ✅ 감사페이지 주소 (자동 이동)
-    const THANK_YOU_URL = "thank-you.html"; // 수정 불필요, 자동으로 thank-you.html로 이동
-
-    // 자동 UTM 및 환경 정보 수집
-    document.getElementById("referrer").value = document.referrer || "";
+    // ---- 자동 트래킹 값 세팅 ----
+    document.getElementById("referrer").value   = document.referrer || "";
     document.getElementById("user_agent").value = navigator.userAgent;
-    document.getElementById("page").value = window.location.href;
+    document.getElementById("page").value       = window.location.href;
+
     const params = new URLSearchParams(window.location.search);
     ["utm_source","utm_medium","utm_campaign","utm_term","utm_content"].forEach(k=>{
       if(params.has(k)) document.getElementById(k).value = params.get(k);
@@ -117,40 +118,5 @@
       spinner.classList.toggle("d-none", !on);
       submitText.textContent = on ? "전송 중..." : "제출하기";
       msg.textContent = on ? "잠시만 기다려 주세요." : "";
-      msg.className = on ? "text-primary" : "text-muted";
-    }
-
-    form.addEventListener("submit", async (e)=>{
-      e.preventDefault();
-      if(!form.checkValidity()){ form.reportValidity(); return; }
-
-      setSendingState(true);
-      try {
-        const data = Object.fromEntries(new FormData(form).entries());
-        const res = await fetch(SCRIPT_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-        const json = await res.json();
-        if(json.ok){
-          alert("✅ 전송이 완료되었습니다. 감사합니다!");
-          msg.textContent = "전송 성공";
-          msg.className = "text-success";
-          form.reset();
-          setTimeout(()=>{ window.location.href = THANK_YOU_URL; }, 1000);
-        } else {
-          throw new Error(json.error || "서버 오류");
-        }
-      } catch(err) {
-        alert("❌ 전송 실패: 잠시 후 다시 시도해 주세요.");
-        msg.textContent = "전송 실패: " + err;
-        msg.className = "text-danger";
-      } finally {
-        setSendingState(false);
-      }
-    });
-  </script>
-</body>
-</html>
+      msg.className = o
 
