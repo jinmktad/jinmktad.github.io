@@ -3,133 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>문의 / 신청 폼</title>
+  <title>리드 신청 폼 | LEADMAKERS</title>
+
+  <!-- ✅ Google Analytics 4 추적 코드 (G-24NTRKVRFC) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-24NTRKVRFC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-24NTRKVRFC');
+  </script>
+
   <style>
     body {
-      font-family: "Noto Sans KR", sans-serif;
-      background-color: #f8fafc;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      font-family: "Pretendard", sans-serif;
+      background-color: #f5f7fa;
       margin: 0;
+      padding: 0;
     }
     .container {
+      max-width: 480px;
+      margin: 60px auto;
       background: white;
       padding: 40px;
-      border-radius: 14px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-      width: 480px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
     h2 {
       text-align: center;
-      color: #111827;
-      margin-bottom: 30px;
+      color: #222;
     }
-    label {
-      font-weight: 600;
-      margin-top: 15px;
-      display: block;
-      color: #111827;
-    }
-    input, textarea, select {
+    input, textarea {
       width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border: 1px solid #d1d5db;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-    textarea {
-      resize: none;
-      height: 100px;
+      padding: 12px;
+      margin: 8px 0 16px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 16px;
     }
     button {
       width: 100%;
-      background-color: #2563eb;
+      background: #0066ff;
       color: white;
-      padding: 14px;
       border: none;
+      padding: 14px;
       border-radius: 8px;
+      font-size: 17px;
       cursor: pointer;
-      font-size: 16px;
-      margin-top: 20px;
+      transition: 0.3s;
     }
     button:hover {
-      background-color: #1d4ed8;
+      background: #004cd6;
     }
-    .success {
-      display: none;
+    .msg {
       text-align: center;
-      margin-top: 20px;
-      color: #111827;
-      font-weight: 500;
+      color: green;
+      margin-top: 10px;
+      display: none;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <h2>문의 / 신청 폼</h2>
+    <h2>리드 신청 폼</h2>
     <form id="leadForm">
-      <label>이름 *</label>
-      <input type="text" name="name" required />
+      <label>이름</label>
+      <input type="text" id="name" name="name" placeholder="이름을 입력하세요" required />
 
-      <label>연락처 *</label>
-      <input type="text" name="phone" placeholder="예: 010-1234-5678" required />
-
-      <label>이메일</label>
-      <input type="email" name="email" />
-
-      <label>사업명</label>
-      <input type="text" name="project" />
-
-      <label>지역</label>
-      <input type="text" name="region" />
-
-      <label>카테고리</label>
-      <select name="category">
-        <option value="">선택하세요</option>
-        <option value="부동산 분양">부동산 분양</option>
-        <option value="프랜차이즈 창업">프랜차이즈 창업</option>
-        <option value="정책자금 컨설팅">정책자금 컨설팅</option>
-        <option value="교육 / 학원">교육 / 학원</option>
-        <option value="기타">기타</option>
-      </select>
+      <label>연락처</label>
+      <input type="text" id="phone" name="phone" placeholder="예: 010-1234-5678" required />
 
       <label>문의 내용</label>
-      <textarea name="message" placeholder="상세 내용을 입력해 주세요."></textarea>
+      <textarea id="message" name="message" rows="4" placeholder="문의 내용을 입력하세요"></textarea>
 
-      <button type="submit">제출하기</button>
+      <button type="submit">신청하기</button>
+      <p class="msg" id="successMsg">✅ 신청이 완료되었습니다!</p>
     </form>
-
-    <div class="success" id="successMessage">
-      🎉 상담 신청이 완료되었습니다.<br />
-      전문가가 확인 후 연락드리겠습니다.
-    </div>
   </div>
 
   <script>
+    // ✅ Google Apps Script 배포 URL
     const scriptURL = "https://script.google.com/macros/s/AKfycbw9XFx5eF1tGbJ-vNDzK2J0YQkEAEMAr5-9dieFuawpVSKBPQ5Ftv2jzKqKWWpd31n8CQ/exec";
 
-    document.getElementById("leadForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const form = e.target;
-      const successMessage = document.getElementById("successMessage");
+    const form = document.getElementById("leadForm");
+    const successMsg = document.getElementById("successMsg");
 
-      fetch(scriptURL, { method: "POST", body: new FormData(form) })
+    // ✅ 쿼리 파라미터 유지 및 갱신
+    function updateURLParams(data) {
+      const params = new URLSearchParams(window.location.search);
+      for (const [key, value] of Object.entries(data)) {
+        params.set(key, value);
+      }
+      const newURL = window.location.pathname + "?" + params.toString();
+      window.history.replaceState({}, "", newURL);
+    }
+
+    // ✅ 폼 제출 이벤트
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const formObj = Object.fromEntries(formData.entries());
+
+      fetch(scriptURL, { method: "POST", body: formData })
         .then((response) => {
           if (response.ok) {
+            successMsg.style.display = "block";
+            updateURLParams(formObj); // URL 쿼리 갱신
+            gtag("event", "form_submit", { event_category: "lead", event_label: "Lead Submitted" });
             form.reset();
-            successMessage.style.display = "block";
           } else {
-            alert("전송 실패: 잠시 후 다시 시도해 주세요.");
+            alert("전송 중 오류가 발생했습니다. 다시 시도해주세요.");
           }
         })
-        .catch((error) => {
-          alert("오류가 발생했습니다. 다시 시도해 주세요.");
-          console.error("Error:", error);
-        });
+        .catch((error) => alert("서버 연결 오류: " + error.message));
     });
   </script>
 </body>
 </html>
+
