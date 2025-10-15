@@ -8,121 +8,165 @@
     body {
       font-family: "Noto Sans KR", sans-serif;
       background-color: #f4f6f9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
+      padding: 40px 16px;
     }
-    .form-container {
-      background: white;
-      padding: 40px 50px;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      width: 480px;
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+      padding: 36px 40px;
     }
-    h2 {
+    h1 {
       text-align: center;
-      margin-bottom: 30px;
-      color: #111;
+      margin: 0 0 28px;
       font-size: 26px;
+      letter-spacing: .2px;
     }
-    .form-group {
-      margin-bottom: 18px;
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+    .row-1 { grid-template-columns: 1fr 1fr; }
+    .row-2 { grid-template-columns: 1fr 1fr; }
+    .row-3 { grid-template-columns: 1fr 1fr; }
+    .full { grid-column: 1 / -1; }
+    label { display:block; font-weight:700; margin: 8px 0 6px; }
+    .req::after { content:" *"; color:#e53935; }
+    input, select, textarea {
+      width: 100%; box-sizing: border-box;
+      padding: 11px 12px; border: 1px solid #d7dce4; border-radius: 10px; font-size: 15px;
+      outline: none; transition: border .15s ease;
     }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 8px;
-    }
-    input, textarea, select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-    textarea {
-      height: 100px;
-      resize: none;
-    }
-    .row {
-      display: flex;
-      gap: 10px;
-    }
-    .col {
-      flex: 1;
-    }
+    input:focus, select:focus, textarea:focus { border-color:#2f6fed; }
+    textarea { min-height: 140px; resize: vertical; }
     button {
-      background-color: #0d6efd;
-      color: white;
-      border: none;
-      padding: 14px;
-      border-radius: 8px;
+      width: 100%; margin-top: 20px; padding: 14px;
+      background:#1967ff; color:#fff; border:0; border-radius: 10px; font-size: 17px;
       cursor: pointer;
-      font-size: 16px;
-      width: 100%;
     }
-    button:hover {
-      background-color: #0b5ed7;
-    }
+    button:hover { background:#1156da; }
+    .note { text-align:center; margin-top:10px; color:#667085; font-size: 13px; }
   </style>
 </head>
 <body>
-  <div class="form-container">
-    <h2>문의 / 신청 폼</h2>
+  <div class="wrap">
+    <h1>문의 / 신청 폼</h1>
+
     <form id="leadForm">
-      <div class="row">
-        <div class="col form-group">
-          <label>이름 <span style="color:red">*</span></label>
+      <div class="row row-1">
+        <div>
+          <label class="req">이름</label>
           <input type="text" name="name" required />
         </div>
-        <div class="col form-group">
-          <label>연락처 <span style="color:red">*</span></label>
+        <div>
+          <label class="req">연락처</label>
           <input type="text" name="phone" placeholder="예: 010-1234-5678" required />
         </div>
       </div>
 
-      <div class="row">
-        <div class="col form-group">
+      <div class="row row-2">
+        <div>
           <label>이메일</label>
           <input type="email" name="email" />
         </div>
-        <div class="col form-group">
+        <div>
           <label>사업명</label>
           <input type="text" name="site" />
         </div>
       </div>
 
-      <div class="row">
-        <div class="col form-group">
+      <div class="row row-3">
+        <div>
           <label>지역</label>
           <input type="text" name="region" />
         </div>
-        <div class="col form-group">
+        <div>
           <label>카테고리</label>
           <select name="category">
             <option value="">선택하세요</option>
-            <option>부동산 분양</option>
-            <option>프랜차이즈 창업</option>
-            <option>정책자금 컨설팅</option>
-            <option>교육 / 학원</option>
-            <option>기타</option>
+            <option value="부동산분양">부동산분양</option>
+            <option value="프랜차이즈창업">프랜차이즈창업</option>
+            <option value="정책자금컨설팅">정책자금컨설팅</option>
+            <option value="교육학원">교육·학원</option>
+            <option value="홍보마케팅">홍보·마케팅</option>
+            <option value="기타">기타</option>
           </select>
         </div>
       </div>
 
-      <div class="form-group">
-        <label>문의 내용</label>
-        <textarea name="message" placeholder="상세 내용을 입력해 주세요."></textarea>
+      <div class="row">
+        <div class="full">
+          <label>문의 내용</label>
+          <textarea name="message" placeholder="상세 내용을 입력해 주세요."></textarea>
+        </div>
       </div>
 
+      <!-- 숨김 추적 필드 -->
+      <input type="hidden" name="utm_source"  id="utm_source" />
+      <input type="hidden" name="utm_medium"  id="utm_medium" />
+      <input type="hidden" name="utm_campaign" id="utm_campaign" />
+      <input type="hidden" name="utm_term"    id="utm_term" />
+      <input type="hidden" name="utm_content" id="utm_content" />
+      <input type="hidden" name="referrer"    id="referrer" />
+      <input type="hidden" name="user_agent"  id="user_agent" />
+      <input type="hidden" name="page"        id="page" />
+
       <button type="submit">제출하기</button>
+      <div class="note" id="note"></div>
     </form>
   </div>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz4b2QLACQGUPxkuLnIzgQEGzvwY4zLDHJ0GAKCVcVVX4Dm4gGRd5B2XZJ70K-dxnEZcw/exec";
+    // ✅ Apps Script /exec URL
+    const SCRIPT_URL   = "https://script.google.com/macros/s/AKfycbz4b2QLACQGUPxkuLnIzgQEGzvwY4zLDHJ0GAKCVcVVX4Dm4gGRd5B2XZJ70K-dxnEZcw/exec";
+    // ✅ 감사 페이지(루트에 존재)
     const THANK_YOU_URL = "https://jinmktad.github.io/thank-you.html";
 
-    document.getElementById("leadForm").addEventListen
+    // 숨김 필드 자동 세팅
+    document.getElementById("referrer").value   = document.referrer || "";
+    document.getElementById("user_agent").value = navigator.userAgent;
+    document.getElementById("page").value       = window.location.href;
+
+    const q = new URLSearchParams(location.search);
+    ["utm_source","utm_medium","utm_campaign","utm_term","utm_content"].forEach(k=>{
+      if (q.has(k)) document.getElementById(k).value = q.get(k);
+    });
+
+    const form = document.getElementById("leadForm");
+    const note = document.getElementById("note");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (form.checkValidity && !form.checkValidity()) { form.reportValidity(); return; }
+
+      note.textContent = "전송 중입니다. 잠시만 기다려 주세요…";
+
+      try {
+        // ✅ CORS 문제 없는 FormData 전송
+        const res  = await fetch(SCRIPT_URL, { method: "POST", body: new FormData(form) });
+
+        // Apps Script가 text/plain일 때를 대비해 안전 파싱
+        const text = await res.text();
+        let json = null;
+        try { json = JSON.parse(text); } catch(_) {}
+
+        const ok = (json && json.ok === true) || res.ok;
+
+        if (ok) {
+          alert("✅ 전송이 완료되었습니다. 감사합니다!");
+          form.reset();
+          location.href = THANK_YOU_URL;   // 감사 페이지 이동
+        } else {
+          const errMsg = (json && json.error) ? json.error : ("HTTP " + res.status + " 응답");
+          note.textContent = "";
+          alert("❌ 전송 실패: " + errMsg);
+        }
+      } catch (err) {
+        note.textContent = "";
+        alert("❌ 전송 실패: 네트워크 오류. 잠시 후 다시 시도해 주세요.");
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
