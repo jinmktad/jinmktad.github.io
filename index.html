@@ -1,113 +1,156 @@
-<!DOCTYPE html><html lang="ko"><head>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>상담 문의 | Leadmakers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lead Form - FINAL_FORM_DB</title>
+
+  <!-- Bootstrap 5 -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    crossorigin="anonymous"
+  />
+
   <style>
-    body{font-family:"Noto Sans KR",system-ui,apple-system,sans-serif;background:#f7f8fa;margin:0}
-    .wrap{min-height:100vh;display:grid;place-items:center;padding:40px 16px}
-    .card{width:100%;max-width:520px;background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 8px 22px rgba(0,0,0,.08);padding:28px}
-    h2{margin:0 0 18px;font-size:22px}
-    .muted{color:#6b7280;margin:-6px 0 18px;font-size:14px}
-    label{display:block;margin:12px 0 6px;font-weight:600}
-    input,select,textarea{width:100%;padding:12px 14px;border:1px solid #d1d5db;border-radius:10px;font-size:15px;box-sizing:border-box}
-    textarea{min-height:110px;resize:vertical}
-    button{margin-top:18px;width:100%;padding:14px;border:0;border-radius:12px;background:#111827;color:#fff;font-weight:700;cursor:pointer}
-    button:hover{background:#0b1220}
-    .success,.error{display:none;margin-top:14px;font-weight:600;text-align:center}
-    .success{color:#059669}
-    .error{color:#b91c1c}
-  </style></head><body>
-  <main class="wrap">
-    <section class="card">
-      <h2>상담 문의</h2>
-      <p class="muted">아래 정보를 남겨주시면 영업시간(월~토 09:00~18:00) 내 연락드립니다.</p>
+    body { background: #f5f7fb; }
+    .card { border: 0; box-shadow: 0 10px 30px rgba(0,0,0,.06); border-radius: 16px; }
+    .form-label { font-weight: 600; }
+    .required::after { content:" *"; color:#dc3545; }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-7">
+        <div class="card p-4 p-md-5">
+          <h1 class="h3 text-center mb-4">문의 / 신청 폼</h1>
 
-      <form id="leadForm">
-        <label>이름</label>
-        <input id="name" required placeholder="홍길동" />
+          <form id="leadForm" novalidate>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label required">이름</label>
+                <input type="text" name="name" class="form-control" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label required">연락처</label>
+                <input type="tel" name="phone" class="form-control" placeholder="예: 010-1234-5678" required />
+              </div>
 
-        <label>전화번호</label>
-        <input id="phone" type="tel" required placeholder="010-1234-5678" />
+              <div class="col-md-6">
+                <label class="form-label">이메일</label>
+                <input type="email" name="email" class="form-control" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">사이트명</label>
+                <input type="text" name="site" class="form-control" />
+              </div>
 
-        <label>이메일</label>
-        <input id="email" type="email" placeholder="you@example.com" />
+              <div class="col-md-6">
+                <label class="form-label">지역</label>
+                <input type="text" name="region" class="form-control" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">카테고리</label>
+                <input type="text" name="category" class="form-control" />
+              </div>
 
-        <label>현장명</label>
-        <input id="site" placeholder="예: ○○ 모델하우스 / ○○지점" />
+              <div class="col-12">
+                <label class="form-label">문의 내용</label>
+                <textarea name="message" rows="4" class="form-control" placeholder="상세 내용을 입력해 주세요."></textarea>
+              </div>
 
-        <label>지역</label>
-        <select id="region">
-          <option value="">지역을 선택하세요</option>
-          <option>서울</option><option>경기</option><option>인천</option>
-          <option>강원</option><option>충청</option><option>전라</option>
-          <option>경상</option><option>제주</option>
-        </select>
+              <!-- Hidden fields -->
+              <input type="hidden" name="utm_source" id="utm_source" />
+              <input type="hidden" name="utm_medium" id="utm_medium" />
+              <input type="hidden" name="utm_campaign" id="utm_campaign" />
+              <input type="hidden" name="utm_term" id="utm_term" />
+              <input type="hidden" name="utm_content" id="utm_content" />
+              <input type="hidden" name="referrer" id="referrer" />
+              <input type="hidden" name="user_agent" id="user_agent" />
+              <input type="hidden" name="page" id="page" />
+            </div>
 
-        <label>문의 유형</label>
-        <select id="category">
-          <option value="">선택하세요</option>
-          <option>분양문의</option><option>창업상담</option>
-          <option>정책자금</option><option>언론홍보</option><option>기타</option>
-        </select>
+            <div class="d-grid mt-4">
+              <button id="submitBtn" type="submit" class="btn btn-primary btn-lg">
+                <span class="submit-text">제출하기</span>
+                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+              </button>
+            </div>
 
-        <label>메시지</label>
-        <textarea id="message" placeholder="원하시는 상담 내용을 적어주세요."></textarea>
+            <div class="text-center mt-3">
+              <small id="msg" class="text-muted"></small>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        <button type="submit">제출하기</button>
-        <div id="ok" class="success">🎉 성공적으로 제출되었습니다!</div>
-        <div id="ng" class="error">전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</div>
-      </form>
-    </section>
-  </main>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
   <script>
-    // ✅ 새로 배포된 Apps Script URL이 적용되었습니다! 
-    const ENDPOINT = "https://script.google.com/macros/s/1M20aJcb8YTNNaOlCR7EQ7S3KgLi_bC6XbPlxOb_tuL2CS2kcbjcCDV/exec";
-    function getUTM(){
-      const u = new URL(location.href), g=k=>u.searchParams.get(k)||"";
-      return { utm_source:g('utm_source'), utm_medium:g('utm_medium'),
-               utm_campaign:g('utm_campaign'), utm_term:g('utm_term'),
-               utm_content:g('utm_content') };
+    // ✅ Apps Script Web App URL
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz4b2QLACQGUPxkuLnIzgQEGzvwY4zLDHJ0GAKCVcVVX4Dm4gGRd5B2XZJ70K-dxnEZcw/exec";
+
+    // ✅ 감사페이지 주소 (자동 이동)
+    const THANK_YOU_URL = "thank-you.html"; // 수정 불필요, 자동으로 thank-you.html로 이동
+
+    // 자동 UTM 및 환경 정보 수집
+    document.getElementById("referrer").value = document.referrer || "";
+    document.getElementById("user_agent").value = navigator.userAgent;
+    document.getElementById("page").value = window.location.href;
+    const params = new URLSearchParams(window.location.search);
+    ["utm_source","utm_medium","utm_campaign","utm_term","utm_content"].forEach(k=>{
+      if(params.has(k)) document.getElementById(k).value = params.get(k);
+    });
+
+    const form = document.getElementById("leadForm");
+    const msg = document.getElementById("msg");
+    const submitBtn = document.getElementById("submitBtn");
+    const spinner = submitBtn.querySelector(".spinner-border");
+    const submitText = submitBtn.querySelector(".submit-text");
+
+    function setSendingState(on){
+      submitBtn.disabled = on;
+      spinner.classList.toggle("d-none", !on);
+      submitText.textContent = on ? "전송 중..." : "제출하기";
+      msg.textContent = on ? "잠시만 기다려 주세요." : "";
+      msg.className = on ? "text-primary" : "text-muted";
     }
 
-    document.getElementById("leadForm").addEventListener("submit", async (e) => {
+    form.addEventListener("submit", async (e)=>{
       e.preventDefault();
-      
-      const submitButton = e.target.querySelector('button[type="submit"]');
-      submitButton.disabled = true;
-      submitButton.textContent = '제출 중...';
+      if(!form.checkValidity()){ form.reportValidity(); return; }
 
-      const data = {
-        name: document.getElementById("name").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        site: document.getElementById("site").value.trim(),
-        region: document.getElementById("region").value,
-        category: document.getElementById("category").value,
-        message: document.getElementById("message").value.trim(),
-        ...getUTM(),
-        referrer: document.referrer || "",
-        user_agent: navigator.userAgent || "",
-        page: location.href
-      };
-
-      try{
-        const response = await fetch(ENDPOINT, {
+      setSendingState(true);
+      try {
+        const data = Object.fromEntries(new FormData(form).entries());
+        const res = await fetch(SCRIPT_URL, {
           method: "POST",
-          mode: "no-cors", 
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
         });
-        
-        // 🚨 응답 상태와 관계없이 (no-cors 모드이므로), 리다이렉트 실행
-        location.href = "/thank-you.html"; 
-
-      }catch(err){
-        submitButton.disabled = false;
-        submitButton.textContent = '제출하기';
-        document.getElementById("ng").style.display = "block";
-        document.getElementById("ok").style.display = "none";
-        console.error("Fetch Error:", err);
+        const json = await res.json();
+        if(json.ok){
+          alert("✅ 전송이 완료되었습니다. 감사합니다!");
+          msg.textContent = "전송 성공";
+          msg.className = "text-success";
+          form.reset();
+          setTimeout(()=>{ window.location.href = THANK_YOU_URL; }, 1000);
+        } else {
+          throw new Error(json.error || "서버 오류");
+        }
+      } catch(err) {
+        alert("❌ 전송 실패: 잠시 후 다시 시도해 주세요.");
+        msg.textContent = "전송 실패: " + err;
+        msg.className = "text-danger";
+      } finally {
+        setSendingState(false);
       }
     });
-  </script></body></html>
+  </script>
+</body>
+</html>
+
