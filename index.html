@@ -14,118 +14,145 @@
       height: 100vh;
       margin: 0;
     }
+
     .container {
       background-color: #fff;
       padding: 40px 50px;
       border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       width: 500px;
-      max-width: 90%;
     }
-    h1 {
+
+    h2 {
       text-align: center;
+      margin-bottom: 30px;
       color: #111;
-      font-size: 26px;
-      margin-bottom: 25px;
     }
-    label {
-      font-weight: 600;
-      margin-bottom: 5px;
-      display: block;
-      color: #333;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
-    input, textarea, select {
+
+    .row {
+      display: flex;
+      gap: 10px;
+    }
+
+    input, select, textarea {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 18px;
+      padding: 12px;
       border: 1px solid #ddd;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 14px;
-      box-sizing: border-box;
     }
+
     textarea {
       resize: none;
+      height: 100px;
     }
+
     button {
-      width: 100%;
-      background-color: #0a58ff;
-      color: #fff;
-      border: none;
+      background-color: #1a73e8;
+      color: white;
       padding: 14px;
-      border-radius: 6px;
+      border: none;
+      border-radius: 8px;
       font-size: 16px;
       cursor: pointer;
-      transition: background-color 0.2s;
+      transition: background 0.2s ease;
     }
+
     button:hover {
-      background-color: #004ee0;
+      background-color: #0f5bd4;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .required::after {
+      content: " *";
+      color: red;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>문의 / 신청 폼</h1>
+    <h2>문의 / 신청 폼</h2>
     <form id="leadForm">
-      <div>
-        <label>이름 <span style="color: red;">*</span></label>
-        <input type="text" name="name" required />
+      <div class="row">
+        <div style="flex:1">
+          <label for="name" class="required">이름</label>
+          <input type="text" id="name" name="이름" required />
+        </div>
+        <div style="flex:1">
+          <label for="phone" class="required">연락처</label>
+          <input type="tel" id="phone" name="연락처" placeholder="예: 010-1234-5678" required />
+        </div>
       </div>
-      <div>
-        <label>연락처 <span style="color: red;">*</span></label>
-        <input type="tel" name="phone" placeholder="예: 010-1234-5678" required />
+
+      <div class="row">
+        <div style="flex:1">
+          <label for="email">이메일</label>
+          <input type="email" id="email" name="이메일" />
+        </div>
+        <div style="flex:1">
+          <label for="business">사업명</label>
+          <input type="text" id="business" name="사업명" />
+        </div>
       </div>
-      <div>
-        <label>이메일</label>
-        <input type="email" name="email" />
+
+      <div class="row">
+        <div style="flex:1">
+          <label for="region">지역</label>
+          <input type="text" id="region" name="지역" />
+        </div>
+        <div style="flex:1">
+          <label for="category">카테고리</label>
+          <select id="category" name="카테고리">
+            <option value="">선택하세요</option>
+            <option value="부동산분양">부동산분양</option>
+            <option value="프랜차이즈창업">프랜차이즈창업</option>
+            <option value="정책자금컨설팅">정책자금컨설팅</option>
+            <option value="교육·학원">교육·학원</option>
+          </select>
+        </div>
       </div>
+
       <div>
-        <label>사업명</label>
-        <input type="text" name="site" />
+        <label for="message">문의 내용</label>
+        <textarea id="message" name="문의내용" placeholder="상세 내용을 입력해 주세요."></textarea>
       </div>
-      <div>
-        <label>지역</label>
-        <input type="text" name="region" />
-      </div>
-      <div>
-        <label>카테고리</label>
-        <select name="category">
-          <option value="">선택하세요</option>
-          <option value="부동산 분양">부동산 분양</option>
-          <option value="프랜차이즈 창업">프랜차이즈 창업</option>
-          <option value="정책자금 컨설팅">정책자금 컨설팅</option>
-          <option value="교육 / 학원">교육 / 학원</option>
-          <option value="기타">기타</option>
-        </select>
-      </div>
-      <div>
-        <label>문의 내용</label>
-        <textarea name="message" rows="4" placeholder="상세 내용을 입력해 주세요."></textarea>
-      </div>
+
       <button type="submit">제출하기</button>
     </form>
   </div>
 
   <script>
-    const form = document.getElementById("leadForm");
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwgQbkNV3EOkyJSPEgI5Hebrua-8xAuuG5mXuwNVLQBXeye3oSdA_WsNlrJHAvPuc32fQ/exec";
 
-    form.addEventListener("submit", (e) => {
+    document.getElementById("leadForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-
-      const scriptURL = "https://script.google.com/macros/s/AKfycbz4b2QLACQGUPxkuLnIzgQEGzvwY4zLDHJ0GAKCVcVVX4Dm4gGRd5B2XZJ70K-dxnEZcw/exec";
+      const form = e.target;
       const formData = new FormData(form);
 
-      fetch(scriptURL, { method: "POST", body: formData })
-        .then(response => {
-          if (response.ok) {
-            window.location.href = "thank-you.html"; // ✅ thank-you 페이지로 이동 (자동이동 없음)
-          } else {
-            alert("전송 실패: 잠시 후 다시 시도해 주세요.");
-          }
-        })
-        .catch(() => {
-          alert("전송 실패: 네트워크 오류가 발생했습니다.");
-        });
+      try {
+        const response = await fetch(scriptURL, { method: "POST", body: formData });
+        if (response.ok) {
+          window.location.href = "thank-you.html?v=2"; // ✅ 캐시 무시용 버전 파라미터
+        } else {
+          alert("제출 중 오류가 발생했습니다. 다시 시도해주세요.");
+        }
+      } catch (error) {
+        alert("서버와의 연결에 문제가 있습니다.");
+      }
     });
   </script>
 </body>
 </html>
+
