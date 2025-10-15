@@ -117,7 +117,7 @@
       fetch(scriptURL, { method: "POST", body: formData })
         .then(response => {
           if (response.ok) {
-            window.location.href = "thank-you.html";
+            window.location.href = "thank-you.html"; // ✅ thank-you 페이지로 이동 (자동이동 없음)
           } else {
             alert("전송 실패: 잠시 후 다시 시도해 주세요.");
           }
