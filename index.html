@@ -6,78 +6,64 @@
   <title>문의 / 신청 폼</title>
   <style>
     body {
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      background-color: #f5f6fa;
+      font-family: "Noto Sans KR", sans-serif;
+      background-color: #f8fafc;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
     }
-
     .container {
-      background-color: #fff;
-      padding: 40px 50px;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      width: 500px;
+      background: white;
+      padding: 40px;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      width: 480px;
     }
-
     h2 {
       text-align: center;
+      color: #111827;
       margin-bottom: 30px;
-      color: #111;
     }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+    label {
+      font-weight: 600;
+      margin-top: 15px;
+      display: block;
+      color: #111827;
     }
-
-    .row {
-      display: flex;
-      gap: 10px;
-    }
-
-    input, select, textarea {
+    input, textarea, select {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
       font-size: 14px;
     }
-
     textarea {
       resize: none;
       height: 100px;
     }
-
     button {
-      background-color: #1a73e8;
+      width: 100%;
+      background-color: #2563eb;
       color: white;
       padding: 14px;
       border: none;
       border-radius: 8px;
-      font-size: 16px;
       cursor: pointer;
-      transition: background 0.2s ease;
+      font-size: 16px;
+      margin-top: 20px;
     }
-
     button:hover {
-      background-color: #0f5bd4;
+      background-color: #1d4ed8;
     }
-
-    label {
-      font-weight: 600;
-      font-size: 14px;
-      margin-bottom: 6px;
-      display: block;
-    }
-
-    .required::after {
-      content: " *";
-      color: red;
+    .success {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      color: #111827;
+      font-weight: 500;
     }
   </style>
 </head>
@@ -85,74 +71,65 @@
   <div class="container">
     <h2>문의 / 신청 폼</h2>
     <form id="leadForm">
-      <div class="row">
-        <div style="flex:1">
-          <label for="name" class="required">이름</label>
-          <input type="text" id="name" name="이름" required />
-        </div>
-        <div style="flex:1">
-          <label for="phone" class="required">연락처</label>
-          <input type="tel" id="phone" name="연락처" placeholder="예: 010-1234-5678" required />
-        </div>
-      </div>
+      <label>이름 *</label>
+      <input type="text" name="name" required />
 
-      <div class="row">
-        <div style="flex:1">
-          <label for="email">이메일</label>
-          <input type="email" id="email" name="이메일" />
-        </div>
-        <div style="flex:1">
-          <label for="business">사업명</label>
-          <input type="text" id="business" name="사업명" />
-        </div>
-      </div>
+      <label>연락처 *</label>
+      <input type="text" name="phone" placeholder="예: 010-1234-5678" required />
 
-      <div class="row">
-        <div style="flex:1">
-          <label for="region">지역</label>
-          <input type="text" id="region" name="지역" />
-        </div>
-        <div style="flex:1">
-          <label for="category">카테고리</label>
-          <select id="category" name="카테고리">
-            <option value="">선택하세요</option>
-            <option value="부동산분양">부동산분양</option>
-            <option value="프랜차이즈창업">프랜차이즈창업</option>
-            <option value="정책자금컨설팅">정책자금컨설팅</option>
-            <option value="교육·학원">교육·학원</option>
-          </select>
-        </div>
-      </div>
+      <label>이메일</label>
+      <input type="email" name="email" />
 
-      <div>
-        <label for="message">문의 내용</label>
-        <textarea id="message" name="문의내용" placeholder="상세 내용을 입력해 주세요."></textarea>
-      </div>
+      <label>사업명</label>
+      <input type="text" name="project" />
+
+      <label>지역</label>
+      <input type="text" name="region" />
+
+      <label>카테고리</label>
+      <select name="category">
+        <option value="">선택하세요</option>
+        <option value="부동산 분양">부동산 분양</option>
+        <option value="프랜차이즈 창업">프랜차이즈 창업</option>
+        <option value="정책자금 컨설팅">정책자금 컨설팅</option>
+        <option value="교육 / 학원">교육 / 학원</option>
+        <option value="기타">기타</option>
+      </select>
+
+      <label>문의 내용</label>
+      <textarea name="message" placeholder="상세 내용을 입력해 주세요."></textarea>
 
       <button type="submit">제출하기</button>
     </form>
+
+    <div class="success" id="successMessage">
+      🎉 상담 신청이 완료되었습니다.<br />
+      전문가가 확인 후 연락드리겠습니다.
+    </div>
   </div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwgQbkNV3EOkyJSPEgI5Hebrua-8xAuuG5mXuwNVLQBXeye3oSdA_WsNlrJHAvPuc32fQ/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbw9XFx5eF1tGbJ-vNDzK2J0YQkEAEMAr5-9dieFuawpVSKBPQ5Ftv2jzKqKWWpd31n8CQ/exec";
 
-    document.getElementById("leadForm").addEventListener("submit", async (e) => {
+    document.getElementById("leadForm").addEventListener("submit", function (e) {
       e.preventDefault();
       const form = e.target;
-      const formData = new FormData(form);
+      const successMessage = document.getElementById("successMessage");
 
-      try {
-        const response = await fetch(scriptURL, { method: "POST", body: formData });
-        if (response.ok) {
-          window.location.href = "thank-you.html?v=2"; // ✅ 캐시 무시용 버전 파라미터
-        } else {
-          alert("제출 중 오류가 발생했습니다. 다시 시도해주세요.");
-        }
-      } catch (error) {
-        alert("서버와의 연결에 문제가 있습니다.");
-      }
+      fetch(scriptURL, { method: "POST", body: new FormData(form) })
+        .then((response) => {
+          if (response.ok) {
+            form.reset();
+            successMessage.style.display = "block";
+          } else {
+            alert("전송 실패: 잠시 후 다시 시도해 주세요.");
+          }
+        })
+        .catch((error) => {
+          alert("오류가 발생했습니다. 다시 시도해 주세요.");
+          console.error("Error:", error);
+        });
     });
   </script>
 </body>
 </html>
-
