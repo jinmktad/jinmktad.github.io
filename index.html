@@ -1,64 +1,104 @@
-<script>
-  // 최신 배포 URL (/exec)
-  const EXEC_URL = "https://script.google.com/macros/s/AKfycbymPnv4TLs7Ntt20zWCcSn8lN6rzZwAWL21Ki0nVU50bq7vbjQ6EnrE8Ymdcc24-wdzLQ/exec";
-
-  const form = document.getElementById('leadForm');
-  const btn  = document.getElementById('submitBtn');
-
-  function getUTM() {
-    const p = new URLSearchParams(location.search);
-    return {
-      utm_source:   p.get('utm_source')   || '',
-      utm_medium:   p.get('utm_medium')   || '',
-      utm_campaign: p.get('utm_campaign') || '',
-      utm_term:     p.get('utm_term')     || '',
-      utm_content:  p.get('utm_content')  || '',
-    };
-  }
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!form.reportValidity()) return;
-
-    btn.disabled = true;
-    btn.textContent = '전송 중…';
-
-    // 1) form fields → URLSearchParams (x-www-form-urlencoded)
-    const params = new URLSearchParams();
-    for (const [k, v] of new FormData(form).entries()) params.append(k, v);
-
-    // 2) add extra fields (no CORS preflight)
-    const extras = {
-      ...getUTM(),
-      referrer:   document.referrer || '',
-      user_agent: navigator.userAgent || '',
-      page:       location.pathname + location.search
-    };
-    Object.entries(extras).forEach(([k, v]) => params.append(k, v));
-
-    try {
-      const res = await fetch(EXEC_URL, {
-        method: 'POST',
-        body: params                      // ★ 헤더 지정 금지 (브라우저가 자동 설정)
-      });
-
-      // Apps Script가 JSON을 주든 문자열을 주든 안전하게 처리
-      let data = null;
-      try { data = await res.json(); } catch(_) { data = null; }
-
-      if ((data && data.ok) || res.ok) {
-        location.href = '/thank-you.html';
-      } else {
-        alert('전송 실패: 잠시 후 다시 시도해주세요.');
-        console.log('Response status:', res.status, 'body:', data);
-        btn.disabled = false;
-        btn.textContent = '상담 신청하기';
-      }
-    } catch (err) {
-      alert('네트워크 오류: 잠시 후 다시 시도해주세요.');
-      console.error(err);
-      btn.disabled = false;
-      btn.textContent = '상담 신청하기';
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>리드메이커스 상담 신청</title>
+  <style>
+    :root{
+      --bg:#f6f7fb; --card:#ffffff; --text:#111827; --muted:#6b7280;
+      --primary:#1e64ff; --border:#d7dbe3; --shadow:0 10px 24px rgba(0,0,0,.08);
+      --radius:16px;
     }
-  });
-</script>
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font-family:system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;
+    }
+    .wrap{
+      width:100%; max-width:720px; background:var(--card); border-radius:var(--radius);
+      box-shadow:var(--shadow); padding:28px;
+    }
+    h1{margin:0 0 24px; text-align:center; font-size:28px;}
+    .grid{display:grid; grid-template-columns:1fr; gap:14px;}
+    .row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+    @media (max-width:560px){ .row{grid-template-columns:1fr;} }
+    input,select,textarea{
+      width:100%; padding:14px; border:1px solid var(--border); border-radius:10px; font-size:16px;
+    }
+    textarea{min-height:120px; resize:vertical;}
+    button{
+      padding:14px 16px; font-size:17px; border:0; border-radius:12px;
+      background:var(--primary); color:#fff; font-weight:700; cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>리드메이커스 상담 신청</h1>
+
+    <!-- 네이티브 제출(페이지 이동) -->
+    <form class="grid" method="POST"
+      action="https://script.google.com/macros/s/AKfycbyE59B9pGh0x5D-OBs8nfhkfPQD71KYUVc1wXu7gs0jiXbWoCeKxBeumeg-bCMGitLOrg/exec"
+      onsubmit="fillHidden();">
+
+      <div class="row">
+        <input type="text"  name="name"  placeholder="이름 *" required>
+        <input type="tel"   name="phone" placeholder="연락처 * (예: 010-0000-0000)" required>
+      </div>
+
+      <div class="row">
+        <select name="category" aria-label="관심 분야">
+          <option value="">관심 분야 선택</option>
+          <option value="부동산 분양">부동산 분양</option>
+          <option value="프랜차이즈 창업">프랜차이즈 창업</option>
+          <option value="정책자금 컨설팅">정책자금 컨설팅</option>
+          <option value="교육/학원">교육/학원</option>
+        </select>
+        <input type="text" name="사업명" placeholder="사업명(선택) 예: 시그니처 속초">
+      </div>
+
+      <div class="row">
+        <input type="email" name="email"  placeholder="이메일(선택)">
+        <input type="text"  name="region" placeholder="지역(선택) 예: 서울특별시">
+      </div>
+
+      <textarea name="message" placeholder="상담 요청 내용을 적어주세요."></textarea>
+
+      <!-- 자동 수집/리다이렉트용 hidden 필드 -->
+      <input type="hidden" name="utm_source">
+      <input type="hidden" name="utm_medium">
+      <input type="hidden" name="utm_campaign">
+      <input type="hidden" name="utm_term">
+      <input type="hidden" name="utm_content">
+      <input type="hidden" name="referrer">
+      <input type="hidden" name="user_agent">
+      <input type="hidden" name="page">
+      <!-- Apps Script가 이 주소로 리디렉션 -->
+      <input type="hidden" name="redirect" value="https://jinmktad.github.io/thank-you.html">
+
+      <button type="submit">상담 신청하기</button>
+    </form>
+  </main>
+
+  <script>
+    // 제출 직전 hidden 값 채우기
+    function fillHidden(){
+      const qs = new URLSearchParams(location.search);
+      const f  = document.forms[0];
+
+      f.utm_source.value   = qs.get('utm_source')   || '';
+      f.utm_medium.value   = qs.get('utm_medium')   || '';
+      f.utm_campaign.value = qs.get('utm_campaign') || '';
+      f.utm_term.value     = qs.get('utm_term')     || '';
+      f.utm_content.value  = qs.get('utm_content')  || '';
+
+      f.referrer.value   = document.referrer || '';
+      f.user_agent.value = navigator.userAgent || '';
+      f.page.value       = location.pathname + location.search;
+    }
+  </script>
+</body>
+</html>
+
