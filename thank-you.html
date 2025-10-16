@@ -1,37 +1,89 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>상담 신청 완료</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>신청이 완료되었습니다</title>
+  <meta name="robots" content="noindex" />
   <style>
     body {
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      background-color: #f5f6fa;
+      margin: 0;
+      font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+      background-color: #f4f6fa;
+      color: #222;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
     }
     .container {
-      background-color: #fff;
-      padding: 40px 50px;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       text-align: center;
-      width: 420px;
+      background: #fff;
+      padding: 50px 40px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      max-width: 420px;
+      width: 90%;
     }
-    h2 { color: #111; font-size: 22px; margin-bottom: 15px; }
-    p  { color: #333; font-size: 15px; line-height: 1.6; margin-bottom: 0; }
+    .check {
+      font-size: 56px;
+      color: #2b6ef2;
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    a {
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn-main {
+      background-color: #2b6ef2;
+      color: white;
+    }
+    .btn-main:hover {
+      background-color: #1f55c2;
+    }
+    .btn-form {
+      background-color: #f2f4f7;
+      color: #333;
+    }
+    .btn-form:hover {
+      background-color: #e2e5ea;
+    }
+    footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #aaa;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>상담 신청이 완료되었습니다 🎉</h2>
-    <p>전문가가 확인 후 영업시간(월~토 09:00~18:00) 내에 빠르게 연락드리겠습니다.</p>
-    <p style="margin-top: 20px; font-size: 14px; color: #666;">감사합니다.</p>
+    <div class="check">✔</div>
+    <h1>신청이 완료되었습니다</h1>
+    <p>전문가가 확인 후 빠른 시간안에 연락드리겠습니다.<br>이용해 주셔서 감사합니다.</p>
+    <div class="buttons">
+      <a href="/" class="btn-main">메인으로 돌아가기</a>
+      <a href="/form.html" class="btn-form">새 신청 작성</a>
+    </div>
+    <footer>© LEADMAKERS</footer>
   </div>
 </body>
 </html>
-
