@@ -2,155 +2,149 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>문의 / 신청 폼</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>리드메이커스 상담 신청</title>
+  <meta name="description" content="리드메이커스 AI 광고 리드 신청폼" />
 
-  <!-- ✅ GA4 픽셀 (측정 ID: G-24NTRKVRFC) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-24NTRKVRFC"></script>
+  <!-- ✅ Google Analytics 4 (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WXDG9MLL7"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-24NTRKVRFC');
+    gtag('config', 'G-WXDG9MLL7');
+  </script>
+
+  <!-- ✅ Google Ads 전화 전환 추적 (Call Conversion Tag) -->
+  <script>
+    gtag('config', 'AW-17627631658');
   </script>
 
   <style>
-    :root{--bg:#f5f6fa;--card:#fff;--text:#111827;--muted:#6b7280;--primary:#2563eb;--primary-hover:#1d4ed8;}
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);font-family:"Noto Sans KR",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--text)}
-    .wrap{max-width:560px;margin:48px auto;padding:24px}
-    .card{background:var(--card);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.08);padding:28px}
-    h1{margin:0 0 6px 0;font-size:22px}
-    p.sub{margin:0 0 18px 0;color:var(--muted);font-size:14px}
-    label{display:block;margin:12px 0 6px 0;font-weight:700}
-    .req::after{content:" *";color:#ef4444}
-    input,select,textarea{width:100%;padding:12px 14px;border:1px solid #d1d5db;border-radius:10px;font-size:15px;background:#fff}
-    textarea{min-height:120px;resize:vertical}
-    button{width:100%;margin-top:16px;padding:14px 16px;background:var(--primary);color:#fff;border:0;border-radius:10px;font-size:16px;cursor:pointer}
-    button:hover{background:var(--primary-hover)}
-    .msg{margin-top:12px;text-align:center;font-size:14px;color:var(--muted)}
-    .ok{color:#16a34a}.err{color:#dc2626}
-    small.hint{color:var(--muted)}
+    body {
+      font-family: "Pretendard", sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 520px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 35px 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 1.4rem;
+      text-align: center;
+      color: #222;
+      margin-bottom: 1.4rem;
+    }
+    label {
+      font-size: 0.9rem;
+      color: #333;
+      display: block;
+      margin-top: 1rem;
+      margin-bottom: 0.4rem;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+    button {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 1.4rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #1e3a8a;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: #555;
+    }
+    .call-btn {
+      display: block;
+      background: #16a34a;
+      color: #fff;
+      text-align: center;
+      padding: 14px 0;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .call-btn:hover {
+      background: #15803d;
+    }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="card">
-      <h1 id="pageTitle">리드 신청 폼</h1>
-      <p class="sub" id="pageSubtitle">관심 서비스를 선택하고 간단히 신청해 주세요.</p>
+  <div class="container">
+    <h1>리드메이커스 상담 신청</h1>
 
-      <form id="leadForm" autocomplete="on">
-        <label class="req">이름</label>
-        <input type="text" name="name" required />
+    <!-- ✅ 상담신청 폼 -->
+    <form id="leadForm" action="https://script.google.com/macros/s/AKfycbwgQbkNV3EOkyJSPEgI5Hebrua-8xAuuG5mXuwNVLQBXeye3oSdA_WsNlrJHAvPuc32fQ/exec" method="POST" target="_blank">
+      <label>이름</label>
+      <input type="text" name="name" required />
 
-        <label class="req">연락처</label>
-        <input type="text" name="phone" placeholder="예: 010-1234-5678" required />
+      <label>연락처</label>
+      <input type="text" name="phone" required />
 
-        <label>이메일</label>
-        <input type="email" name="email" placeholder="예: you@email.com" />
+      <label>관심 분야</label>
+      <select name="category" required>
+        <option value="분양">부동산 분양</option>
+        <option value="프랜차이즈">프랜차이즈</option>
+        <option value="정책자금">정책자금 컨설팅</option>
+        <option value="기타">기타</option>
+      </select>
 
-        <label>사업명</label>
-        <input type="text" name="site" placeholder="예: 시그니처 속초" />
+      <label>상담 요청 내용</label>
+      <textarea name="message" rows="4" placeholder="상담 받고 싶은 내용을 입력해주세요."></textarea>
 
-        <label>지역</label>
-        <input type="text" name="region" placeholder="예: 서울특별시" />
+      <button type="submit">상담 신청하기</button>
+    </form>
 
-        <label>카테고리</label>
-        <select name="category">
-          <option value="">선택하세요</option>
-          <option value="부동산 분양">부동산 분양</option>
-          <option value="프랜차이즈 창업">프랜차이즈 창업</option>
-          <option value="정책자금 컨설팅">정책자금 컨설팅</option>
-          <option value="교육 / 학원">교육 / 학원</option>
-          <option value="기타">기타</option>
-        </select>
+    <!-- ✅ 전화 버튼 -->
+    <a href="tel:6685761827" class="call-btn" id="callBtn">📞 전화 상담 바로 연결</a>
 
-        <label>문의 내용</label>
-        <textarea name="message" placeholder="상세 내용을 입력해 주세요."></textarea>
-
-        <!-- ✅ 추적/메타 (시트에 함께 저장) -->
-        <input type="hidden" name="utm_source" />
-        <input type="hidden" name="utm_medium" />
-        <input type="hidden" name="utm_campaign" />
-        <input type="hidden" name="utm_term" />
-        <input type="hidden" name="utm_content" />
-        <input type="hidden" name="referrer" />
-        <input type="hidden" name="user_agent" />
-        <input type="hidden" name="page" />
-
-        <button type="submit">제출하기</button>
-        <div id="msg" class="msg"></div>
-        <p class="sub" style="margin-top:10px"><small class="hint">제출 후 페이지 이동 없이 완료 메시지가 표시됩니다.</small></p>
-      </form>
+    <div class="footer">
+      <p>Powered by LeadMakers · Google Ads & GA4 Conversion Tracking Active</p>
     </div>
   </div>
 
+  <!-- ✅ 폼 전환 이벤트 추적 -->
   <script>
-    // ✅ Apps Script Web App (배포 v2 /exec URL)
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw9XFx5eF1tGbJ-vNDzK2J0YQkEAEMAr5-9dieFuawpVSKBPQ5Ftv2jzKqKWWpd31n8CQ/exec";
+    document.getElementById('leadForm').addEventListener('submit', function() {
+      gtag('event', 'generate_lead', {
+        'event_category': 'Lead',
+        'event_label': 'Form Submission'
+      });
+    });
 
-    const form = document.getElementById("leadForm");
-    const msg  = document.getElementById("msg");
-
-    // --- 1) URL 파라미터 읽기 + 제목/부제 동적 변경 (사이트링크용) ---
-    const params = new URLSearchParams(location.search);
-    const pageType = (params.get("page") || "").toLowerCase();
-
-    const titleMap = {
-      consult:   { t: "무료 상담 신청",              s: "전문가가 빠르게 연락드려 상담을 진행합니다." },
-      service:   { t: "서비스 소개 및 안내",          s: "진행 절차, 지원 범위를 간단히 확인해 보세요." },
-      case:      { t: "성공 사례/후기 확인",          s: "실제 고객 성과와 후기를 참고해 보세요." },
-      quick:     { t: "빠른 문의 접수",              s: "이름과 연락처만 남기면 바로 접수됩니다." }
-    };
-    const titleEl = document.getElementById("pageTitle");
-    const subEl   = document.getElementById("pageSubtitle");
-    if (titleMap[pageType]) {
-      titleEl.textContent = titleMap[pageType].t;
-      subEl.textContent   = titleMap[pageType].s;
-    }
-
-    // --- 2) UTM/메타 값 채우기 ---
-    form.elements["utm_source"].value   = params.get("utm_source")   || "";
-    form.elements["utm_medium"].value   = params.get("utm_medium")   || "";
-    form.elements["utm_campaign"].value = params.get("utm_campaign") || "";
-    form.elements["utm_term"].value     = params.get("utm_term")     || "";
-    form.elements["utm_content"].value  = params.get("utm_content")  || "";
-    form.elements["referrer"].value     = document.referrer || "";
-    form.elements["user_agent"].value   = navigator.userAgent || "";
-    form.elements["page"].value         = pageType || "";
-
-    // --- 3) 제출 처리 (시트 저장 + GA4 이벤트 + 성공 메시지) ---
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      msg.className = "msg";
-      msg.textContent = "전송 중입니다…";
-
-      try {
-        const fd = new FormData(form);
-        const res = await fetch(SCRIPT_URL, { method: "POST", body: fd });
-        const ok  = res.ok;
-
-        if (ok) {
-          msg.className = "msg ok";
-          msg.textContent = "✅ 신청이 완료되었습니다. 담당자가 곧 연락드리겠습니다.";
-          // GA4 전환 이벤트
-          gtag('event', 'form_submit', {
-            event_category: 'Lead',
-            event_label: pageType || 'general',
-            value: 1
-          });
-          form.reset();
-        } else {
-          msg.className = "msg err";
-          msg.textContent = "❌ 전송 실패: 잠시 후 다시 시도해 주세요.";
-        }
-      } catch (err) {
-        msg.className = "msg err";
-        msg.textContent = "⚠️ 네트워크 오류: 다시 시도해 주세요.";
-        console.error(err);
-      }
+    // ✅ 전화 클릭 시 전환 이벤트 전송
+    document.getElementById('callBtn').addEventListener('click', function() {
+      gtag('event', 'conversion', {
+        'send_to': 'AW-17627631658/PHONE_CLICK',
+        'event_category': 'Phone',
+        'event_label': 'Direct Call Click'
+      });
     });
   </script>
 </body>
 </html>
-
