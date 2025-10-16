@@ -1,112 +1,64 @@
-<!doctype html>
-<html lang="ko">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>리드메이커스 상담 신청</title>
-  <style>
-    body{margin:0;background:#f6f7fb;font-family:system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;color:#111}
-    .wrap{max-width:720px;margin:40px auto;padding:28px;background:#fff;border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,.08)}
-    h1{margin:0 0 24px;text-align:center;font-size:28px}
-    .grid{display:grid;grid-template-columns:1fr;gap:14px}
-    input,select,textarea{width:100%;padding:14px;border:1px solid #d7dbe3;border-radius:10px;font-size:16px}
-    textarea{min-height:120px;resize:vertical}
-    button{padding:14px 16px;font-size:17px;border:0;border-radius:12px;background:#1e64ff;color:#fff;font-weight:700;cursor:pointer}
-    button:disabled{opacity:.6;cursor:not-allowed}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width:560px){.row{grid-template-columns:1fr}}
-  </style>
-</head>
-<body>
-  <main class="wrap">
-    <h1>리드메이커스 상담 신청</h1>
+<script>
+  // 최신 배포 URL (/exec)
+  const EXEC_URL = "https://script.google.com/macros/s/AKfycbymPnv4TLs7Ntt20zWCcSn8lN6rzZwAWL21Ki0nVU50bq7vbjQ6EnrE8Ymdcc24-wdzLQ/exec";
 
-    <form id="leadForm" class="grid" novalidate>
-      <div class="row">
-        <input type="text"  name="name"  placeholder="이름 *" required>
-        <input type="tel"   name="phone" placeholder="연락처 * (예: 010-0000-0000)" required>
-      </div>
+  const form = document.getElementById('leadForm');
+  const btn  = document.getElementById('submitBtn');
 
-      <div class="row">
-        <select name="category">
-          <option value="">관심 분야 선택</option>
-          <option value="부동산 분양">부동산 분양</option>
-          <option value="프랜차이즈 창업">프랜차이즈 창업</option>
-          <option value="정책자금 컨설팅">정책자금 컨설팅</option>
-          <option value="교육/학원">교육/학원</option>
-        </select>
-        <input type="text" name="사업명" placeholder="사업명(선택) 예: 시그니처 속초">
-      </div>
+  function getUTM() {
+    const p = new URLSearchParams(location.search);
+    return {
+      utm_source:   p.get('utm_source')   || '',
+      utm_medium:   p.get('utm_medium')   || '',
+      utm_campaign: p.get('utm_campaign') || '',
+      utm_term:     p.get('utm_term')     || '',
+      utm_content:  p.get('utm_content')  || '',
+    };
+  }
 
-      <div class="row">
-        <input type="email" name="email" placeholder="이메일(선택)">
-        <input type="text"  name="region" placeholder="지역(선택) 예: 서울특별시">
-      </div>
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
 
-      <textarea name="message" placeholder="상담 요청 내용을 적어주세요."></textarea>
+    btn.disabled = true;
+    btn.textContent = '전송 중…';
 
-      <button id="submitBtn" type="submit">상담 신청하기</button>
-    </form>
-  </main>
+    // 1) form fields → URLSearchParams (x-www-form-urlencoded)
+    const params = new URLSearchParams();
+    for (const [k, v] of new FormData(form).entries()) params.append(k, v);
 
-  <script>
-    // ★ 최신 배포 URL( /exec ) — 요청하신 값으로 이미 반영
-    const EXEC_URL = "https://script.google.com/macros/s/AKfycbymPnv4TLs7Ntt20zWCcSn8lN6rzZwAWL21Ki0nVU50bq7vbjQ6EnrE8Ymdcc24-wdzLQ/exec";
+    // 2) add extra fields (no CORS preflight)
+    const extras = {
+      ...getUTM(),
+      referrer:   document.referrer || '',
+      user_agent: navigator.userAgent || '',
+      page:       location.pathname + location.search
+    };
+    Object.entries(extras).forEach(([k, v]) => params.append(k, v));
 
-    const form = document.getElementById('leadForm');
-    const btn  = document.getElementById('submitBtn');
-
-    // UTM 자동 수집
-    function getUTM(){
-      const p = new URLSearchParams(location.search);
-      return {
-        utm_source:   p.get('utm_source')   || '',
-        utm_medium:   p.get('utm_medium')   || '',
-        utm_campaign: p.get('utm_campaign') || '',
-        utm_term:     p.get('utm_term')     || '',
-        utm_content:  p.get('utm_content')  || '',
-      };
-    }
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!form.reportValidity()) return;
-
-      btn.disabled = true; btn.textContent = '전송 중…';
-
-      // 폼데이터 → JSON
-      const fd = new FormData(form);
-      const payload = Object.fromEntries(fd.entries());
-
-      // 부가 정보
-      Object.assign(payload, getUTM(), {
-        referrer:   document.referrer || '',
-        user_agent: navigator.userAgent || '',
-        page:       location.pathname + location.search
+    try {
+      const res = await fetch(EXEC_URL, {
+        method: 'POST',
+        body: params                      // ★ 헤더 지정 금지 (브라우저가 자동 설정)
       });
 
-      try{
-        const res  = await fetch(EXEC_URL, {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json().catch(()=> ({}));
+      // Apps Script가 JSON을 주든 문자열을 주든 안전하게 처리
+      let data = null;
+      try { data = await res.json(); } catch(_) { data = null; }
 
-        if(res.ok && data.ok){
-          // 성공 → 감사 페이지
-          location.href = '/thank-you.html';
-        }else{
-          alert('전송 실패: 잠시 후 다시 시도해주세요.');
-          console.log('Response:', res.status, data);
-          btn.disabled = false; btn.textContent = '상담 신청하기';
-        }
-      }catch(err){
-        alert('네트워크 오류: 잠시 후 다시 시도해주세요.');
-        console.error(err);
-        btn.disabled = false; btn.textContent = '상담 신청하기';
+      if ((data && data.ok) || res.ok) {
+        location.href = '/thank-you.html';
+      } else {
+        alert('전송 실패: 잠시 후 다시 시도해주세요.');
+        console.log('Response status:', res.status, 'body:', data);
+        btn.disabled = false;
+        btn.textContent = '상담 신청하기';
       }
-    });
-  </script>
-</body>
-</html>
+    } catch (err) {
+      alert('네트워크 오류: 잠시 후 다시 시도해주세요.');
+      console.error(err);
+      btn.disabled = false;
+      btn.textContent = '상담 신청하기';
+    }
+  });
+</script>
