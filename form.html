@@ -1,105 +1,123 @@
-<!DOCTYPE html><html lang="ko"><head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>상담 문의 | Leadmakers</title>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>리드 신청 폼</title>
   <style>
-    body{font-family:"Noto Sans KR",system-ui,apple-system,sans-serif;background:#f7f8fa;margin:0}
-    .wrap{min-height:100vh;display:grid;place-items:center;padding:40px 16px}
-    .card{width:100%;max-width:520px;background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 8px 22px rgba(0,0,0,.08);padding:28px}
-    h2{margin:0 0 18px;font-size:22px}
-    .muted{color:#6b7280;margin:-6px 0 18px;font-size:14px}
-    label{display:block;margin:12px 0 6px;font-weight:600}
-    input,select,textarea{width:100%;padding:12px 14px;border:1px solid #d1d5db;border-radius:10px;font-size:15px;box-sizing:border-box}
-    textarea{min-height:110px;resize:vertical}
-    button{margin-top:18px;width:100%;padding:14px;border:0;border-radius:12px;background:#111827;color:#fff;font-weight:700;cursor:pointer}
-    button:hover{background:#0b1220}
-    .success{display:none;margin-top:14px;color:#059669;font-weight:600;text-align:center}
-    .error{display:none;margin-top:14px;color:#b91c1c;font-weight:600;text-align:center}
-  </style></head><body>
-  <main class="wrap">
-    <section class="card">
-      <h2>상담 문의</h2>
-      <p class="muted">아래 정보를 남겨주시면 영업시간(월~토 09:00~18:00) 내 연락드립니다.</p>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #f9fafc;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 480px;
+      margin: 60px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      padding: 30px 25px;
+    }
+    h2 {
+      text-align: center;
+      color: #222;
+      margin-bottom: 25px;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+      color: #444;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 18px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #2b6ef2;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s ease-in-out;
+    }
+    button:hover {
+      background-color: #1f54c9;
+    }
+    .footer {
+      text-align: center;
+      font-size: 13px;
+      color: #888;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>리드 신청 폼</h2>
+    <form id="leadForm" method="POST" action="https://script.google.com/macros/s/AKfycbymPnv4TLs7Ntt20zWCcSn8lN6rzZwAWL21Ki0nVU50bq7vbjQ6EnrE8Ymdcc24-wdzLQ/exec">
+      <label for="name">이름</label>
+      <input type="text" id="name" name="name" required>
 
-      <form id="leadForm">
-        <label>이름</label>
-        <input id="name" required placeholder="홍길동" />
+      <label for="phone">전화번호</label>
+      <input type="tel" id="phone" name="phone" required placeholder="010-0000-0000">
 
-        <label>전화번호</label>
-        <input id="phone" type="tel" required placeholder="010-1234-5678" />
+      <label for="email">이메일</label>
+      <input type="email" id="email" name="email" placeholder="example@naver.com">
 
-        <label>이메일</label>
-        <input id="email" type="email" placeholder="you@example.com" />
+      <label for="category">관심 분야</label>
+      <select id="category" name="category" required>
+        <option value="">선택하세요</option>
+        <option value="시그니처 속초">시그니처 속초</option>
+        <option value="프랜차이즈 창업">프랜차이즈 창업</option>
+        <option value="부동산 투자">부동산 투자</option>
+        <option value="기타 문의">기타 문의</option>
+      </select>
 
-        <label>현장명</label>
-        <input id="site" placeholder="예: ○○ 모델하우스 / ○○지점" />
+      <label for="business">사업명</label>
+      <input type="text" id="business" name="business" placeholder="예: 시그니처 속초 / 평택 프라운트힐스 등">
 
-        <label>지역</label>
-        <select id="region">
-          <option value="">지역을 선택하세요</option>
-          <option>서울</option><option>경기</option><option>인천</option>
-          <option>강원</option><option>충청</option><option>전라</option>
-          <option>경상</option><option>제주</option>
-        </select>
+      <label for="region">지역</label>
+      <input type="text" id="region" name="region" placeholder="예: 서울특별시 / 부산광역시">
 
-        <label>문의 유형</label>
-        <select id="category">
-          <option value="">선택하세요</option>
-          <option>분양문의</option><option>창업상담</option>
-          <option>정책자금</option><option>언론홍보</option><option>기타</option>
-        </select>
+      <label for="message">문의 내용</label>
+      <textarea id="message" name="message" rows="4" placeholder="문의 내용을 입력해주세요."></textarea>
 
-        <label>메시지</label>
-        <textarea id="message" placeholder="원하시는 상담 내용을 적어주세요."></textarea>
-
-        <button type="submit">제출하기</button>
-        <div id="ok" class="success">🎉 성공적으로 제출되었습니다!</div>
-        <div id="ng" class="error">전송 중 오류가 발생했습니다. 다시 시도해주세요.</div>
-      </form>
-    </section>
-  </main>
+      <button type="submit">신청 완료</button>
+    </form>
+    <div class="footer">© LEADMAKERS</div>
+  </div>
 
   <script>
-    // ✅ 새 Apps Script 웹앱 URL 적용
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbzDRGQ4A9apSGBiJP1FkyR8WBU7CZnLqRSxI39TNGPfMurzlyaAAL2J2JWIIZhUogec/exec";
-
-    function getUTM(){
-      const u = new URL(location.href), g=k=>u.searchParams.get(k)||"";
-      return { utm_source:g('utm_source'), utm_medium:g('utm_medium'),
-               utm_campaign:g('utm_campaign'), utm_term:g('utm_term'),
-               utm_content:g('utm_content') };
-    }
-
-    document.getElementById("leadForm").addEventListener("submit", async (e) => {
+    document.getElementById('leadForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const data = {
-        name: document.getElementById("name").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        site: document.getElementById("site").value.trim(),
-        region: document.getElementById("region").value,
-        category: document.getElementById("category").value,
-        message: document.getElementById("message").value.trim(),
-        ...getUTM(),
-        referrer: document.referrer || "",
-        user_agent: navigator.userAgent || "",
-        page: location.href
-      };
-
-      try{
-        await fetch(ENDPOINT, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
+      const form = e.target;
+      const data = new FormData(form);
+      const params = new URLSearchParams(data);
+      
+      fetch(form.action, { method: 'POST', body: params })
+        .then(response => {
+          if (response.ok) {
+            window.location.href = "thank-you.html";
+          } else {
+            alert("전송 실패: 서버 응답이 올바르지 않습니다.");
+          }
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          alert("전송 중 오류가 발생했습니다.");
         });
-        document.getElementById("leadForm").reset();
-        document.getElementById("ok").style.display = "block";
-        document.getElementById("ng").style.display = "none";
-      }catch(err){
-        document.getElementById("ng").style.display = "block";
-        document.getElementById("ok").style.display = "none";
-        console.error(err);
-      }
     });
-  </script></body></html>
+  </script>
+</body>
+</html>
+
