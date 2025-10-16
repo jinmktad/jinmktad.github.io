@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>리드메이커스 상담 신청</title>
+  <meta name="description" content="리드 상담/문의 접수 폼" />
   <style>
     :root{
       --bg:#f6f7fb; --card:#ffffff; --text:#111827; --muted:#6b7280;
@@ -24,49 +25,75 @@
     .grid{display:grid; grid-template-columns:1fr; gap:14px;}
     .row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
     @media (max-width:560px){ .row{grid-template-columns:1fr;} }
+    label{font-weight:700; font-size:14px; margin-bottom:6px; display:block;}
     input,select,textarea{
       width:100%; padding:14px; border:1px solid var(--border); border-radius:10px; font-size:16px;
+      background:#fff;
     }
     textarea{min-height:120px; resize:vertical;}
     button{
       padding:14px 16px; font-size:17px; border:0; border-radius:12px;
       background:var(--primary); color:#fff; font-weight:700; cursor:pointer;
     }
+    .hint{color:var(--muted); font-size:13px;}
   </style>
 </head>
 <body>
   <main class="wrap">
     <h1>리드메이커스 상담 신청</h1>
 
-    <!-- 네이티브 제출(페이지 이동) -->
+    <!-- ✅ 네이티브 제출 (페이지 이동) -->
     <form class="grid" method="POST"
-      action="https://script.google.com/macros/s/AKfycbyE59B9pGh0x5D-OBs8nfhkfPQD71KYUVc1wXu7gs0jiXbWoCeKxBeumeg-bCMGitLOrg/exec"
+      action="https://script.google.com/macros/s/AKfycbwgnEgoJnahzftsN7PmITfBaOe95xkg7gXlq2CEBId-pih8Lv-SvZa_McxAD8nt5EoZNw/exec"
       onsubmit="fillHidden();">
 
       <div class="row">
-        <input type="text"  name="name"  placeholder="이름 *" required>
-        <input type="tel"   name="phone" placeholder="연락처 * (예: 010-0000-0000)" required>
+        <div>
+          <label for="name">이름 *</label>
+          <input id="name" type="text" name="name" placeholder="홍길동" required>
+        </div>
+        <div>
+          <label for="phone">연락처 *</label>
+          <input id="phone" type="tel" name="phone" placeholder="010-0000-0000" required>
+        </div>
       </div>
 
       <div class="row">
-        <select name="category" aria-label="관심 분야">
-          <option value="">관심 분야 선택</option>
-          <option value="부동산 분양">부동산 분양</option>
-          <option value="프랜차이즈 창업">프랜차이즈 창업</option>
-          <option value="정책자금 컨설팅">정책자금 컨설팅</option>
-          <option value="교육/학원">교육/학원</option>
-        </select>
-        <input type="text" name="사업명" placeholder="사업명(선택) 예: 시그니처 속초">
+        <div>
+          <label for="category">관심 분야</label>
+          <select id="category" name="category" aria-label="관심 분야">
+            <option value="">선택(선택)</option>
+            <option value="부동산 분양">부동산 분양</option>
+            <option value="프랜차이즈 창업">프랜차이즈 창업</option>
+            <option value="정책자금 컨설팅">정책자금 컨설팅</option>
+            <option value="교육/학원">교육/학원</option>
+          </select>
+        </div>
+        <div>
+          <label for="biz">사업명</label>
+          <input id="biz" type="text" name="사업명" placeholder="예: 시그니처 속초">
+        </div>
       </div>
 
       <div class="row">
-        <input type="email" name="email"  placeholder="이메일(선택)">
-        <input type="text"  name="region" placeholder="지역(선택) 예: 서울특별시">
+        <div>
+          <label for="email">이메일</label>
+          <input id="email" type="email" name="email" placeholder="you@email.com">
+        </div>
+        <div>
+          <label for="region">지역</label>
+          <input id="region" type="text" name="region" placeholder="예: 서울특별시">
+        </div>
       </div>
 
-      <textarea name="message" placeholder="상담 요청 내용을 적어주세요."></textarea>
+      <div>
+        <label for="message">문의 내용</label>
+        <textarea id="message" name="message" placeholder="상담 요청 내용을 적어주세요."></textarea>
+      </div>
 
-      <!-- 자동 수집/리다이렉트용 hidden 필드 -->
+      <span class="hint">* 는 필수 입력 항목입니다.</span>
+
+      <!-- ✅ 자동 수집/리다이렉트용 hidden 필드 -->
       <input type="hidden" name="utm_source">
       <input type="hidden" name="utm_medium">
       <input type="hidden" name="utm_campaign">
@@ -101,4 +128,3 @@
   </script>
 </body>
 </html>
-
